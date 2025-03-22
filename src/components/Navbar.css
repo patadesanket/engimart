@@ -1,0 +1,54 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 15px 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar-left a {
+    margin-right: 20px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .navbar-left a:hover {
+    color: #007bff;
+  }
+  
+  .navbar-center h1 {
+    font-size: 28px;
+    color: #333;
+    font-weight: 700;
+  }
+  
+  .navbar-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-box {
+    padding: 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin-right: 20px;
+    outline: none;
+  }
+  
+  .sell-btn, .login-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 20px;
+    background-color: #007bff;
+    color: white;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .sell-btn:hover, .login-btn:hover {
+    background-color: #0056b3;
+  }
+  
