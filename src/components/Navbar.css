@@ -1,54 +1,134 @@
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffffff;
-    padding: 15px 30px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #080738; /* Light gray background */
+  padding: 5px 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif;
+}
+
+.navbar-left a {
+  margin-right: 20px;
+  text-decoration: none;
+  color: #007bff; /* Royal Blue */
+  font-weight: 500;
+  transition: color 0.3s;
+  /* background-color: #ffffff59; */
+  backdrop-filter: blur(100%);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.navbar-left a:hover {
+  color: #ffffff; /* Darker blue on hover */
   
-  .navbar-left a {
-    margin-right: 20px;
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-  }
-  
-  .navbar-left a:hover {
-    color: #007bff;
-  }
-  
-  .navbar-center h1 {
-    font-size: 28px;
-    color: #333;
-    font-weight: 700;
-  }
-  
-  .navbar-right {
-    display: flex;
-    align-items: center;
-  }
-  
+}
+
+.navbar-center h1 {
+  font-size: 32px;
+  color: #007bff;
+  font-weight: 700;
+  margin: 10px;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.search-box {
+  padding: 11px 25px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  outline: none;
+  margin-right: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.sell-btn, .login-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background-color: #007bff;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.sell-btn:hover {
+  background-color: #28a745; /* Green Accent on hover */
+  transform: scale(1.05);
+}
+
+.login-btn:hover {
+  background-color: #fd7e14; /* Orange Accent on hover */
+  transform: scale(1.05);
+}
+
+
+/* Responsive Navbar */
+@media (max-width: 1024px) {
   .search-box {
-    padding: 8px 15px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    margin-right: 20px;
-    outline: none;
+    width: 150px;
+    padding: 10px 15px;
   }
-  
+
   .sell-btn, .login-btn {
     padding: 8px 15px;
-    border: none;
-    border-radius: 20px;
-    background-color: #007bff;
-    color: white;
+    margin-right: 15px;
+  }
+
+  .navbar-center h1 {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+  }
+
+  .navbar-left, .navbar-right, .navbar-center {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .navbar-center {
+    justify-content: center;
+  }
+
+  .search-box {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .sell-btn, .login-btn {
+    width: 48%;
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-center h1 {
+    font-size: 22px;
+  }
+
+  .sell-btn, .login-btn {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .navbar-left a {
+    font-size: 14px;
     margin-right: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
   }
-  
-  .sell-btn:hover, .login-btn:hover {
-    background-color: #0056b3;
-  }
-  
+}

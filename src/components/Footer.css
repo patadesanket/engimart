@@ -1,0 +1,87 @@
+.footer {
+    background-color: #080738;
+    color: #007bff;
+    padding: 30px 20px; /* Reduced padding to reduce height */
+  }
+  
+  .footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;  /* Keep everything aligned at the top */
+    flex-wrap: wrap;
+  }
+  
+  /* Change links to horizontal */
+  .footer-left ul {
+    list-style: none;
+    padding: 0;
+    display: flex;            /* Make links horizontal */
+    gap: 40px;                /* Space between links */
+  }
+  
+  .footer-left ul li {
+    margin-bottom: 0;         /* Remove bottom margin for horizontal */
+  }
+  
+  .footer-left ul li a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 16px;
+  }
+  .footer-left ul li a :hover{
+    color: #28a745;
+  }
+  .social-icons {
+    margin-top: 20px;
+  }
+  
+  .social-icons a {
+    color: #ccc;
+    margin-right: 15px;
+    font-size: 20px;
+  }
+  
+  .footer-right {
+    width: 40%;  
+    margin-right: 20px;             /* Increase width of the contact form */
+  }
+  
+  .footer-right form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .footer-right input,
+  .footer-right textarea {
+    margin-bottom: 15px;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;              /* Ensure form elements fill the right side */
+  }
+  
+  .footer-right button {
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+    width: 100px;
+    margin-left: 400px;
+
+  }
+
+  .footer-right button:hover{
+    background-color: #28a745;
+  }
+  
+  .footer-bottom {
+    text-align: center;
+    margin-top: 20px;         /* Slightly reduced margin */
+    border-top: 1px solid #444;
+    padding-top: 15px;
+    font-size: 14px;
+  }
+  
