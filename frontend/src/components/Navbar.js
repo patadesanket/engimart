@@ -1,5 +1,6 @@
 import React from 'react';
 import './Navbar.css';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
@@ -18,8 +19,8 @@ const Navbar = () => {
       {/* Right Section */}
       <div className="navbar-right">
         <input type="text" placeholder="Search products..." className="search-box" />
-        <button className="sell-btn">Sell</button>
-        <button className="login-btn">Login</button>
+        <Link to="/sell" className="sell-btn"  style={{ textDecoration: 'none' }}>Sell +</Link>
+        <Link to="/login" className="login-btn " style={{ textDecoration: 'none' }}>Login</Link>
       </div>
     </nav>
   );

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
 import './Home.css';
 import Footer from '../components/Footer';
 
@@ -109,7 +108,6 @@ const Home = () => {
   };
   return (
     <div>
-      <Navbar />
       <div className="hero-section">
         {/* Tagline Section */}
         <div className="tagline">

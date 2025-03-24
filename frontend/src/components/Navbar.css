@@ -114,6 +114,7 @@
   .sell-btn, .login-btn {
     width: 48%;
     margin-right: 0;
+    text-decoration: none;
   }
 }
 
