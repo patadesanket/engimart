@@ -1,20 +1,23 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Form } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"; 
 import Navbar from "./components/Navbar";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
-import SignIn from "./pages/SignIn"
+import SignIn from "./pages/SignIn";
 import SignUp from "./pages/Sign-up";
-
-
+import Sell from "./pages/Sell";
 
 const App = () => {
+  const isAuthenticated = localStorage.getItem("token") !== null;
+
   return (
     <Router>
       <Routes>
         <Route path="/" element={<><Navbar /><Home /></>} />
-        <Route path="/login" element={<SignIn />} />
+        
+        <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/sell" element={<Sell />} />
       </Routes>
     </Router>
   );

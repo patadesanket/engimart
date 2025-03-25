@@ -1,15 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Import Toast CSS
-import "./signIn.css"; // Import the CSS file
+import "react-toastify/dist/ReactToastify.css";
+import "./signIn.css";
 
 const SignIn = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({ email: "", password: "" });
     const [errorMessage, setErrorMessage] = useState("");
-    const navigate = useNavigate(); // Hook for navigation
+    const navigate = useNavigate();
+
+    // 🔹 Prevent access to login page if already logged in
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            navigate("/"); // Redirect to home page if already logged in
+        }
+    }, [navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -36,9 +44,13 @@ const SignIn = () => {
             if (data.success) {
                 toast.success("Login Successful!", { position: "top-right", autoClose: 2000 });
 
-                // Redirect after showing toast
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("user", JSON.stringify(data.user));
+
+                
                 setTimeout(() => {
-                    navigate("/");
+                    navigate("/", { replace: true }); // Redirect without keeping login in history
+                    window.history.pushState(null, "", "/");
                 }, 2000);
             } else {
                 setErrorMessage(data.message);
@@ -52,7 +64,7 @@ const SignIn = () => {
 
     return (
         <div className="signin-container">
-            <ToastContainer /> {/* Toast container for displaying toasts */}
+            <ToastContainer />
             <div className="signin-card">
                 <h2 className="signin-heading">Login</h2>
                 {errorMessage && <p className="error-message">{errorMessage}</p>}
