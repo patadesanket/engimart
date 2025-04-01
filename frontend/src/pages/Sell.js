@@ -4,20 +4,21 @@ import { FaUserCircle, FaEdit, FaTrash, FaArrowRight, FaCar, FaHome, FaMobileAlt
 import { X, UploadCloud } from "lucide-react";
 import "./sell.css";
 import Footer from "../components/Footer";
+import axios from "axios";
 
 const Sell = () => {
     const navigate = useNavigate();
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [products, setProducts] = useState([
-        { id: 1, title: "Smartphone", price: "₹15,000", image: "https://via.placeholder.com/150" },
-        { id: 2, title: "Laptop", price: "₹45,000", image: "https://via.placeholder.com/150" },
-        { id: 3, title: "Bike", price: "₹80,000", image: "https://via.placeholder.com/150" },
-        { id: 4, title: "Watch", price: "₹5,000", image: "https://via.placeholder.com/150" },
-        { id: 5, title: "Headphones", price: "₹3,000", image: "https://via.placeholder.com/150" },
-    ]);
-
+    const [products, setProducts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [productImage, setProductImage] = useState(null);
+    const [productImages, setProductImages] = useState([]);
+
+    // Step 1: State for form inputs
+    const [productName, setProductName] = useState("");
+    const [description, setDescription] = useState("");
+    const [price, setPrice] = useState("");
+    const [whatsapp, setWhatsapp] = useState("");
+    const [email, setEmail] = useState("");
 
     const categories = [
         { name: "Cars", icon: <FaCar /> },
@@ -33,8 +34,19 @@ const Sell = () => {
         const token = localStorage.getItem("token");
         if (!token) {
             navigate("/login");
+        } else {
+            fetchProducts();  // Fetch products when logged in
         }
     }, [navigate]);
+
+    const fetchProducts = async () => {
+        try {
+            const response = await axios.get("http://localhost:5050/api/products");  // Fetch products from backend
+            setProducts(response.data);
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        }
+    };
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
@@ -45,19 +57,76 @@ const Sell = () => {
         navigate("/login");
     };
 
-    // const handleImageUpload = (event) => {
-    //     const file = event.target.files[0];
-    //     if (file) {
-    //         setProductImage(URL.createObjectURL(file));
-    //     }
-    // };
-    const [productImages, setProductImages] = useState([]);
+    const handleImageUpload = (event) => {
+        const files = Array.from(event.target.files);
+        const imageUrls = files.map((file) => URL.createObjectURL(file));
+        setProductImages((prevImages) => [...prevImages, ...imageUrls]);
+    };
 
-const handleImageUpload = (event) => {
-    const files = Array.from(event.target.files);
-    const imageUrls = files.map((file) => URL.createObjectURL(file));
-    setProductImages((prevImages) => [...prevImages, ...imageUrls]);
-};
+    // Step 2: Handle form submission
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData();
+        formData.append('productName', productName);
+        formData.append('description', description);
+        formData.append('price', price);
+        formData.append('whatsapp', whatsapp);
+        formData.append('email', email);
+        formData.append('category', selectedCategory);
+
+        // Append images to FormData
+        productImages.forEach((image, index) => {
+            const file = dataURLtoFile(image, `product-image-${index}.jpg`);
+            formData.append('images', file);
+        });
+
+        try {
+            const response = await axios.post("http://localhost:5050/api/products", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            console.log("Form submitted successfully:", response.data);
+            fetchProducts();  // Fetch products again to include the newly added product
+
+            // Reset form state after successful submission
+            setProductName("");
+            setDescription("");
+            setPrice("");
+            setWhatsapp("");
+            setEmail("");
+            setProductImages([]);
+            setSelectedCategory(null);
+        } catch (error) {
+            console.error("Error submitting form:", error);
+        }
+    };
+
+    function dataURLtoFile(dataUrl, filename) {
+    // Check if the dataUrl is not null or malformed
+    if (!dataUrl || !dataUrl.includes(',')) {
+        console.error("Invalid data URL:", dataUrl);
+        return null; // Return null if the data URL is invalid
+    }
+
+    const arr = dataUrl.split(',');
+    const mime = arr[0].match(/:(.*?);/);
+    if (!mime) {
+        console.error("Invalid mime type:", arr[0]);
+        return null; // Return null if mime type is not found
+    }
+
+    const bstr = atob(arr[1]);
+    const n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime[1] });
+}
+
 
     return (
         <div>
@@ -90,19 +159,23 @@ const handleImageUpload = (event) => {
             <div className="listed-products">
                 <h2 className="section-title">Your Listed Products</h2>
                 <div className="product-grid">
-                    {products.map((product) => (
-                        <div key={product.id} className="product-card">
-                            <img src={product.image} alt={product.title} />
-                            <div className="product-info">
-                                <h3>{product.title}</h3>
-                                <p>{product.price}</p>
+                    {products.length === 0 ? (
+                        <p>No products listed yet.</p>
+                    ) : (
+                        products.map((product) => (
+                            <div key={product.id} className="product-card">
+                                <img src={product.image} alt={product.title} />
+                                <div className="product-info">
+                                    <h3>{product.title}</h3>
+                                    <p>{product.price}</p>
+                                </div>
+                                <div className="product-actions">
+                                    <button className="edit-btn"><FaEdit /> Edit</button>
+                                    <button className="delete-btn"><FaTrash /> Delete</button>
+                                </div>
                             </div>
-                            <div className="product-actions">
-                                <button className="edit-btn"><FaEdit /> Edit</button>
-                                <button className="delete-btn"><FaTrash /> Delete</button>
-                            </div>
-                        </div>
-                    ))}
+                        ))
+                    )}
                 </div>
             </div>
 
@@ -134,7 +207,6 @@ const handleImageUpload = (event) => {
 
                                 {/* Updated Form */}
                                 <div className="product-form-container">
-                                    {/* Close Button */}
                                     <div className="form-header">
                                         <h2>Upload Product</h2>
                                         <button className="close-btn" onClick={() => setSelectedCategory(null)}>
@@ -144,8 +216,20 @@ const handleImageUpload = (event) => {
 
                                     {/* Input Fields */}
                                     <div className="form-fields">
-                                        <input type="text" placeholder="Product Name" className="input-field" />
-                                        <input type="text" placeholder="Description" className="input-field" />
+                                        <input
+                                            type="text"
+                                            placeholder="Product Name"
+                                            className="input-field"
+                                            value={productName}
+                                            onChange={(e) => setProductName(e.target.value)}
+                                        />
+                                        <input
+                                            type="text"
+                                            placeholder="Description"
+                                            className="input-field"
+                                            value={description}
+                                            onChange={(e) => setDescription(e.target.value)}
+                                        />
 
                                         {/* Image Upload */}
                                         <label className="upload-box">
@@ -164,28 +248,43 @@ const handleImageUpload = (event) => {
                                         </div>
 
                                         {/* Price Fields */}
-                                        {/* <input type="number" placeholder="Price (₹)" className="input-field" /> */}
-                                        <input type="number" placeholder="Selling Price (₹)" className="input-field" />
+                                        <input
+                                            type="number"
+                                            placeholder="Selling Price (₹)"
+                                            className="input-field"
+                                            value={price}
+                                            onChange={(e) => setPrice(e.target.value)}
+                                        />
 
                                         {/* WhatsApp & Email Fields */}
-                                        <input type="text" placeholder="Your WhatsApp Number" className="input-field" />
-                                        <input type="email" placeholder="Your Email ID" className="input-field" />
+                                        <input
+                                            type="text"
+                                            placeholder="Your WhatsApp Number"
+                                            className="input-field"
+                                            value={whatsapp}
+                                            onChange={(e) => setWhatsapp(e.target.value)}
+                                        />
+                                        <input
+                                            type="email"
+                                            placeholder="Your Email ID"
+                                            className="input-field"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                        />
 
                                         {/* Submit Button */}
-                                        <button className="submit-btn">Submit</button>
+                                        <button className="submit-btn" onClick={handleSubmit}>Submit</button>
                                     </div>
                                 </div>
                             </div>
                         )}
                     </div>
-
                 </div>
             </div>
+
             <Footer />
         </div>
-
     );
-
 };
 
 export default Sell;
