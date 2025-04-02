@@ -1,6 +1,6 @@
 .footer {
-    background-color: #080738;
-    color: #007bff;
+    background-color: #27315a;
+    color: #f15c17;
     padding: 30px 20px; /* Reduced padding to reduce height */
   }
   
@@ -24,7 +24,7 @@
   }
   
   .footer-left ul li a {
-    color: #007bff;
+    color: #f05c17;
     text-decoration: none;
     font-size: 16px;
   }
@@ -36,7 +36,7 @@
   }
   
   .social-icons a {
-    color: #ccc;
+    color: #f56b2c;
     margin-right: 15px;
     font-size: 20px;
   }
@@ -57,13 +57,14 @@
     padding: 12px;
     border: none;
     border-radius: 5px;
+    background-color: #B4DFE5;
     width: 100%;              /* Ensure form elements fill the right side */
   }
   
   .footer-right button {
     padding: 12px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #B4DFE5;
+    color: #000000;
     border: none;
     border-radius: 50px;
     cursor: pointer;
@@ -74,7 +75,7 @@
   }
 
   .footer-right button:hover{
-    background-color: #28a745;
+    background-color: #f56b2c;
   }
   
   .footer-bottom {

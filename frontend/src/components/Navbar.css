@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #080738; /* Dark blue background */
+  background-color: #2d3864; /* Dark blue background */
   padding: 5px 30px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   font-family: 'Poppins', sans-serif;
@@ -11,7 +11,7 @@
 .navbar-left a {
   margin-right: 20px;
   text-decoration: none;
-  color: #007bff; /* Royal Blue */
+  color: #F4976C; /* Royal Blue */
   font-weight: 500;
   transition: color 0.3s;
   backdrop-filter: blur(100%);
@@ -20,12 +20,12 @@
 }
 
 .navbar-left a:hover {
-  color: #ffffff; /* White on hover */
+  color: #B4DFE5; /* White on hover */
 }
 
 .navbar-center h1 {
   font-size: 32px;
-  color: #007bff;
+  color: #F4976C;
   font-weight: 700;
   margin: 10px;
 }
@@ -38,6 +38,7 @@
 .search-box {
   padding: 11px 25px;
   border: 1px solid #ccc;
+  background-color: #B4DFE5 ;
   border-radius: 25px;
   outline: none;
   margin-right: 20px;
@@ -48,8 +49,8 @@
   padding: 10px 20px;
   border: none;
   border-radius: 25px;
-  background-color: #007bff;
-  color: white;
+  background-color: #B4DFE5;
+  color: #000000;
   font-weight: 600;
   cursor: pointer;
   margin-right: 30px;
@@ -58,12 +59,13 @@
 }
 
 .sell-btn:hover {
-  background-color: #28a745; /* Green Accent on hover */
+  background-color: #F4976C; /* Green Accent on hover */
   transform: scale(1.05);
+  
 }
 
 .login-btn:hover {
-  background-color: #fd7e14; /* Orange Accent on hover */
+  background-color: #F4976C; /* Orange Accent on hover */
   transform: scale(1.05);
 }
 

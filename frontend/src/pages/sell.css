@@ -227,7 +227,7 @@
 
 /* Form Container */
 .form-container {
-    background: white;
+    background: #ffffff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -238,12 +238,20 @@
 
 /* Input Fields */
 .input-field {
-    width: 80%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #b4dfe5; /* Light blue border */
     border-radius: 5px;
     font-size: 16px;
+    background-color: #d2fdff; /* Light cyan */
+    color: #303c6c; /* Dark navy blue */
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #303c6c; /* Dark navy blue focus */
+    box-shadow: 0 0 5px rgba(48, 60, 108, 0.3);
 }
 
 /* Category Dropdown */
@@ -253,39 +261,59 @@
 
 /* Image Upload */
 .image-upload {
-    border: 2px dashed #007bff;
+    border: 2px dashed #f4976c; /* Warm orange */
     padding: 20px;
     text-align: center;
     cursor: pointer;
     border-radius: 10px;
+    background: #fbe8a6; /* Soft yellow */
+    color: #303c6c; /* Dark navy blue */
+    transition: background 0.3s ease-in-out;
+}
+
+.image-upload:hover {
+    background: #f4976c; /* Warm orange hover */
+    color: white;
 }
 
 .image-upload img {
     max-height: 100px;
     margin-top: 10px;
 }
-.preview-image {
-    width: 80px; /* Reduce the width */
-    height: 80px; /* Reduce the height */
-    object-fit: cover; /* Ensures the image maintains aspect ratio */
-    border-radius: 8px; /* Optional: Adds rounded corners */
-    margin: 5px; /* Adds space between images */
-}
 
+.preview-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 5px;
+    border: 2px solid #303c6c; /* Dark navy blue border */
+}
 
 /* Submit Button */
 .submit-btn {
     width: 100%;
-    background: #59a0ec;
+    background: #f4976c; /* Warm orange */
     color: white;
-    padding: 10px;
+    padding: 12px;
     border: none;
     border-radius: 5px;
     font-size: 18px;
+    font-weight: bold;
     cursor: pointer;
     transition: background 0.3s;
 }
 
 .submit-btn:hover {
-    background: #0056b3;
+    background: #d9534f; /* Darker orange-red */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .form-container {
+        padding: 15px;
+    }
+    .input-field {
+        padding: 10px;
+    }
 }

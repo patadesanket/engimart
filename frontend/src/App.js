@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/Sign-up";
 import Sell from "./pages/Sell";
+// import Buy from "./pages/buy"; 
 
 const App = () => {
   const isAuthenticated = localStorage.getItem("token") !== null;
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sell" element={<Sell />} />
+        {/* <Route path="/buy" element={<Buy />} /> */}
       </Routes>
     </Router>
   );

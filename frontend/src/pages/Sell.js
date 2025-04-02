@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaUserCircle, FaEdit, FaTrash, FaArrowRight, FaCar, FaHome, FaMobileAlt, FaBriefcase, FaBicycle, FaTv, FaTruck } from "react-icons/fa";
+import { FaUserCircle, FaEdit, FaTrash, FaArrowRight, FaTruck, FaBoxOpen } from "react-icons/fa";
+import { AiOutlineCalculator } from "react-icons/ai";
+import { GiLabCoat, GiPencilRuler, GiToolbox, GiElectric } from "react-icons/gi";
 import { X, UploadCloud } from "lucide-react";
 import "./sell.css";
 import Footer from "../components/Footer";
@@ -21,13 +23,13 @@ const Sell = () => {
     const [email, setEmail] = useState("");
 
     const categories = [
-        { name: "Cars", icon: <FaCar /> },
-        { name: "Properties", icon: <FaHome /> },
-        { name: "Mobiles", icon: <FaMobileAlt /> },
-        { name: "Jobs", icon: <FaBriefcase /> },
-        { name: "Bikes", icon: <FaBicycle /> },
-        { name: "Electronics & Appliances", icon: <FaTv /> },
-        { name: "Commercial Vehicles & Spares", icon: <FaTruck /> },
+        { name: "Calculator", icon: <AiOutlineCalculator /> },
+        { name: "Apron", icon: <GiLabCoat /> },
+        { name: "Drawing Tools", icon: <GiPencilRuler /> },
+        { name: "Workshop Tools", icon: <GiToolbox /> },
+        { name: "Electric Components", icon: <GiElectric /> },
+        { name: "Other", icon: <FaBoxOpen /> },
+
     ];
 
     useEffect(() => {
@@ -105,27 +107,27 @@ const Sell = () => {
     };
 
     function dataURLtoFile(dataUrl, filename) {
-    // Check if the dataUrl is not null or malformed
-    if (!dataUrl || !dataUrl.includes(',')) {
-        console.error("Invalid data URL:", dataUrl);
-        return null; // Return null if the data URL is invalid
-    }
+        // Check if the dataUrl is not null or malformed
+        if (!dataUrl || !dataUrl.includes(',')) {
+            console.error("Invalid data URL:", dataUrl);
+            return null; // Return null if the data URL is invalid
+        }
 
-    const arr = dataUrl.split(',');
-    const mime = arr[0].match(/:(.*?);/);
-    if (!mime) {
-        console.error("Invalid mime type:", arr[0]);
-        return null; // Return null if mime type is not found
-    }
+        const arr = dataUrl.split(',');
+        const mime = arr[0].match(/:(.*?);/);
+        if (!mime) {
+            console.error("Invalid mime type:", arr[0]);
+            return null; // Return null if mime type is not found
+        }
 
-    const bstr = atob(arr[1]);
-    const n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
+        const bstr = atob(arr[1]);
+        const n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, { type: mime[1] });
     }
-    return new File([u8arr], filename, { type: mime[1] });
-}
 
 
     return (
@@ -203,15 +205,27 @@ const Sell = () => {
                     <div className={`product-form ${selectedCategory ? "show-form" : ""}`}>
                         {selectedCategory && (
                             <div className="form-content">
+                                <button
+                                    className="close-btn"
+                                    onClick={() => setSelectedCategory(null)}
+                                    style={{
+                                        position: "absolute",
+                                        top: "400px",
+                                        right: "100px",
+                                        background: "transparent",
+                                        border: "none",
+                                        cursor: "pointer"
+                                    }}
+                                >
+                                    <X size={20} />
+                                </button>
                                 <h3>Add {selectedCategory}</h3>
 
                                 {/* Updated Form */}
                                 <div className="product-form-container">
                                     <div className="form-header">
                                         <h2>Upload Product</h2>
-                                        <button className="close-btn" onClick={() => setSelectedCategory(null)}>
-                                            <X size={20} />
-                                        </button>
+
                                     </div>
 
                                     {/* Input Fields */}

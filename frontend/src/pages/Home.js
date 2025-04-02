@@ -1,95 +1,126 @@
 import React, { useState, useEffect } from 'react';
+// import { useNavigate } from 'react-router-dom';
 import './Home.css';
 import Footer from '../components/Footer';
-
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 
 
 const products_hero = [
   {
-    name: 'Calcium Tablet',
-    description: 'Boost your bones and strength.',
-    image: require('../assets/Heropic/calci.webp'),
+    name: 'Scientific calculator',
+    description: 'Advanced calculators used for complex engineering calculations.',
+    image: require('../assets/Heropic/calci_without_bg.png'),
   },
   {
-    name: 'Doctor Apron',
-    description: 'Premium quality doctor apron.',
-    image: require('../assets/Heropic/apron.webp'),
+    name: ' Workshop Apron',
+    description: 'Engineering College Aprons,Worn in workshops and labs for safety.',
+    image: require('../assets/Heropic/apron_without_bg.png'),
   },
   {
-    name: 'Tool Kit',
-    description: 'Complete home repair tool kit.',
-    image: require('../assets/Heropic/tools.webp'),
+    name: 'Drawing tools',
+    description: 'Drwaing tools used for the perfect , high quality 3d Engineering drawing',
+    image: require('../assets/Heropic/tools_without_bg.png'),
   }
 ];
 
 const products_main = [
   { 
-    image: "assets/products/oneplus.jpg", 
-    name: "OnePlus 13R | 12GB RAM", 
-    price: 39999, 
-    offer: "4% Off - Limited Deal" 
+    image: require('../assets/Heropic/calculator.jpg'), 
+    name: "Scienticfic Calculator", 
+    price: 499, 
+    original_price: "1099 " 
   },
   { 
-    image: "assets/products/redmi.jpg", 
-    name: "Redmi A4 5G | 4GB RAM", 
-    price: 9999, 
-    offer: "25% Off - Limited Deal" 
+    image: require('../assets/Heropic/Apron.jpg'), 
+    name: "Workshop Apron", 
+    price: 250, 
+    original_price: "499" 
   },
   { 
-    image: "assets/products/narzo70.jpg", 
-    name: "Realme Narzo 70 Turbo 5G | 6GB RAM", 
-    price: 13999, 
-    offer: "15% Off - Limited Deal" 
+    image: require('../assets/Heropic/engg tools.jpeg'), 
+    name: "Workshop Tools Kit", 
+    price: 599, 
+    original_price: "1200" 
   },
   { 
-    image: "assets/products/iqooNeo10.jpg", 
-    name: "iQOO Neo 10R 5G | 8GB RAM", 
-    price: 23999, 
-    offer: "16% Off - Limited Deal" 
+    image: require('../assets/Heropic/Multimeter.jpg'), 
+    name: "Multimeter", 
+    price: 500, 
+    original_price: "1200" 
   },
   { 
-    image: "assets/products/vivoV50.jpg", 
-    name: "Vivo V50 5G | 8GB RAM", 
-    price: 25999, 
-    offer: "14% Off - Limited Deal" 
+    image: require('../assets/Heropic/bread_borad.jpg'), 
+    name: "Bread Board", 
+    price: 600, 
+    original_price: "1300" 
   },
   { 
-    image: "assets/products/oneplusNord.jpg", 
-    name: "OnePlus Nord CE 3 Lite | 8GB RAM", 
-    price: 18999, 
-    offer: "10% Off - Limited Deal" 
+    image: require('../assets/Heropic/Microcontroller.jpg'), 
+    name: "Microcontroller", 
+    price: 300, 
+    original_price: "500" 
   },
   { 
-    image: "assets/products/galaxyM16.jpg", 
-    name: "Samsung Galaxy M16 | 6GB RAM", 
-    price: 15999, 
-    offer: "12% Off - Limited Deal" 
+    image: require('../assets/Heropic/drafter.jpg'), 
+    name: "Drafter", 
+    price: 600, 
+    original_price: "1400" 
   },
   { 
-    image: "assets/products/iqooZ9x.jpg", 
-    name: "iQOO Z9x 5G | 8GB RAM", 
-    price: 14999, 
-    offer: "9% Off - Limited Deal" 
+    image: require('../assets/Heropic/Drawing_sheet.jpg'), 
+    name: "Drawing Sheet - Set of 5 ", 
+    price: 50, 
+    original_price: "75" 
   },
   { 
-    image: "assets/products/redmiNote13.jpg", 
-    name: "Redmi Note 13 5G | 6GB RAM", 
-    price: 16999, 
-    offer: "18% Off - Limited Deal" 
+    image: require('../assets/Heropic/set_sqaure.jpg'), 
+    name: "Set Sqaure", 
+    price: 20, 
+    original_price: "35" 
   },
   { 
-    image: "assets/products/realmeC67.jpg", 
-    name: "Realme C67 | 8GB RAM", 
-    price: 13499, 
-    offer: "20% Off - Limited Deal" 
+    image: require('../assets/Heropic/Sensor.jpg'), 
+    name: "sensor ", 
+    price: 350, 
+    original_price: "800" 
+  },
+  { 
+    image: require('../assets/Heropic/roller_scale_big.jpg'), 
+    name: "Roller scale - 30cm ", 
+    price: 35, 
+    original_price: "60" 
+  },
+  { 
+    image: require('../assets/Heropic/resistors capacitors.jpg'), 
+    name: "Resistor and Capacitors set", 
+    price: 100, 
+    original_price: "150" 
+  },
+  { 
+    image: require('../assets/Heropic/jumper wire.jpg'), 
+    name: "Jumper Wire set ", 
+    price: 50, 
+    original_price: "120" 
+  },
+  { 
+    image: require('../assets/Heropic/french_curve.jpg'), 
+    name: "French curve ", 
+    price: 15, 
+    original_price: "40" 
+  },
+  { 
+    image: require('../assets/Heropic/Mechanical_pencil.jpg'), 
+    name: "Mechanical Pencil - 0.5mm  ", 
+    price: 25, 
+    original_price: "60" 
   },
   // Add more products...
 ];
 
 const Home = () => {
-
-  const words = ["Products", "Deals", "Offers", "Electronics"];
+  // const navigate = useNavigate(); 
+  const words = ["Products", "Tools", "Aprons", "Stationary"];
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [productIndex, setProductIndex] = useState(0);
   useEffect(() => {
@@ -106,18 +137,26 @@ const Home = () => {
   const prevProduct = () => {
     setProductIndex((prevIndex) => (prevIndex - 1 + products_hero.length) % products_hero.length);
   };
+  // const handleBuyNow = (product) => {
+  //   navigate('/buy', { state: { product } });
+  // };
+
+  
   return (
     <div>
-      <div className="hero-section">
-        {/* Tagline Section */}
+       <div className="hero-section">
+        
         <div className="tagline">
           <h1>
+          <span className="engimart">Engimart</span>
+          <br></br>
+          <br></br>
             Discover the Best <span className="animated-text">{words[currentWordIndex]}</span>
           </h1>
 
         </div>
          <div className="product-showcase">
-          <button className="arrow-btn" onClick={prevProduct}>&lt;</button>
+          <button className="arrow-btn" onClick={prevProduct}> <FiChevronLeft /></button>
 
           <div className="producth-card">
             <img src={products_hero[productIndex].image} alt={products_hero[productIndex].name} className="producth-image" />
@@ -128,11 +167,12 @@ const Home = () => {
             </div>
           </div>
 
-          <button className="arrow-btn" onClick={nextProduct}>&gt;</button>
+          <button className="arrow-btn" onClick={nextProduct}><FiChevronRight /></button>
         </div> 
         
 
-      </div>
+      </div> 
+     
 
 
       <section className="product-section">
@@ -145,8 +185,8 @@ const Home = () => {
         <div className="product-details">
           <p className="product-name">{product.name}</p>
           <p className="product-price">₹{product.price}</p>
-          <p className="product-offer">{product.offer}</p>
-          <button className="buy-btn">Buy Now</button>
+          <p className="product-original_price">{product.original_price}</p>
+          <button className="buy-btn"  >Buy Now</button> 
         </div>
       </div>
     ))}
