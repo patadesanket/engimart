@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaUserCircle, FaEdit, FaTrash, FaArrowRight, FaTruck, FaBoxOpen } from "react-icons/fa";
+import { FaUserCircle, FaTrash, FaArrowRight, FaBoxOpen } from "react-icons/fa";
 import { AiOutlineCalculator } from "react-icons/ai";
 import { GiLabCoat, GiPencilRuler, GiToolbox, GiElectric } from "react-icons/gi";
-import { X, UploadCloud } from "lucide-react";
+import { UploadCloud } from "lucide-react";
 import "./sell.css";
 import Footer from "../components/Footer";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 
 const Sell = () => {
     const navigate = useNavigate();
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [products, setProducts] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [productImages, setProductImages] = useState([]);
 
-    // Step 1: State for form inputs
-    const [productName, setProductName] = useState("");
-    const [description, setDescription] = useState("");
-    const [price, setPrice] = useState("");
-    const [whatsapp, setWhatsapp] = useState("");
-    const [email, setEmail] = useState("");
+    // Form Data State
+    const [data, setData] = useState({
+        productName: "",
+        description: "",
+        price: "",
+        whatsapp: "",
+        email: "",
+        category: "",
+        productImage: []
+    });
 
     const categories = [
         { name: "Calculator", icon: <AiOutlineCalculator /> },
@@ -29,7 +33,6 @@ const Sell = () => {
         { name: "Workshop Tools", icon: <GiToolbox /> },
         { name: "Electric Components", icon: <GiElectric /> },
         { name: "Other", icon: <FaBoxOpen /> },
-
     ];
 
     useEffect(() => {
@@ -37,268 +40,243 @@ const Sell = () => {
         if (!token) {
             navigate("/login");
         } else {
-            fetchProducts();  // Fetch products when logged in
+            fetchProducts();
         }
-    }, [navigate]);
+    }, []); // ✅ Remove [navigate], just run once when the page loads
+    
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get("http://localhost:5050/api/products");  // Fetch products from backend
+            const response = await axios.get("http://localhost:5050/api/products");
             setProducts(response.data);
         } catch (error) {
             console.error("Error fetching products:", error);
         }
     };
 
-    const toggleDropdown = () => {
-        setDropdownOpen(!dropdownOpen);
+    const handleOnChange = (e) => {
+        const { name, value } = e.target;
+        setData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        navigate("/login");
-    };
-
-    const handleImageUpload = (event) => {
+    // ✅ Modified to support multiple images
+    const handleImageUpload = async (event) => {
         const files = Array.from(event.target.files);
-        const imageUrls = files.map((file) => URL.createObjectURL(file));
-        setProductImages((prevImages) => [...prevImages, ...imageUrls]);
+        if (!files.length) return;
+
+        const uploadedImages = [];
+
+        for (let file of files) {
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", "engiMart");
+
+            try {
+                const response = await axios.post("https://api.cloudinary.com/v1_1/dmw8vqkrj/image/upload", formData);
+                uploadedImages.push(response.data.secure_url);
+            } catch (error) {
+                toast.error("Failed to upload image!");
+            }
+        }
+
+        // ✅ Update state with new images
+        setData((prev) => ({
+            ...prev,
+            productImage: [...prev.productImage, ...uploadedImages],
+        }));
     };
 
-    // Step 2: Handle form submission
+    // ✅ Delete a selected image
+    const handleDeleteProductImage = (index) => {
+        setData((prev) => ({
+            ...prev,
+            productImage: prev.productImage.filter((_, i) => i !== index),
+        }));
+    };
+
+
+
+
+    // ✅ Ensure product images are properly included in the API request
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        const formData = new FormData();
-        formData.append('productName', productName);
-        formData.append('description', description);
-        formData.append('price', price);
-        formData.append('whatsapp', whatsapp);
-        formData.append('email', email);
-        formData.append('category', selectedCategory);
-
-        // Append images to FormData
-        productImages.forEach((image, index) => {
-            const file = dataURLtoFile(image, `product-image-${index}.jpg`);
-            formData.append('images', file);
-        });
-
+    
+        if (!data.category) {
+            toast.error("Please select a category.");
+            return;
+        }
+    
+        const productData = {
+            title: data.productName, // Match schema title field
+            description: data.description,
+            price: data.price,
+            whatsapp: data.whatsapp,
+            email: data.email,
+            category: data.category,
+            image: data.productImage.length > 0 ? data.productImage[0] : "", // ✅ Ensure correct key name
+        };
+    
         try {
-            const response = await axios.post("http://localhost:5050/api/products", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
+            const response = await axios.post("http://localhost:5050/api/products", productData, {
+                headers: { "Content-Type": "application/json" },
             });
-
-            console.log("Form submitted successfully:", response.data);
-            fetchProducts();  // Fetch products again to include the newly added product
-
-            // Reset form state after successful submission
-            setProductName("");
-            setDescription("");
-            setPrice("");
-            setWhatsapp("");
-            setEmail("");
-            setProductImages([]);
-            setSelectedCategory(null);
+    
+            if (response.data.success) {
+                toast.success(response.data.message);
+    
+                // ✅ Update product list immediately
+                setProducts((prevProducts) => [...prevProducts, response.data.data]);
+    
+                // ✅ Reset the form
+                setData({
+                    productName: "",
+                    description: "",
+                    price: "",
+                    whatsapp: "",
+                    email: "",
+                    category: "",
+                    productImage: [],
+                });
+    
+                console.log("Submitting Data:", productData);
+            } else {
+                toast.error(response.data.message);
+            }
         } catch (error) {
-            console.error("Error submitting form:", error);
+            toast.error("Error submitting form!");
         }
     };
-
-    function dataURLtoFile(dataUrl, filename) {
-        // Check if the dataUrl is not null or malformed
-        if (!dataUrl || !dataUrl.includes(',')) {
-            console.error("Invalid data URL:", dataUrl);
-            return null; // Return null if the data URL is invalid
-        }
-
-        const arr = dataUrl.split(',');
-        const mime = arr[0].match(/:(.*?);/);
-        if (!mime) {
-            console.error("Invalid mime type:", arr[0]);
-            return null; // Return null if mime type is not found
-        }
-
-        const bstr = atob(arr[1]);
-        const n = bstr.length;
-        const u8arr = new Uint8Array(n);
-        while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-        return new File([u8arr], filename, { type: mime[1] });
-    }
+    
 
 
     return (
-        <div>
-            {/* Navbar */}
-            <nav className="seller-navbar">
-                <div className="navbar-title">Engimart Sellers</div>
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    className="navbar-search"
-                />
-                <div className="navbar-links">
-                    <a href="#">About</a>
-                    <a href="#">Contact</a>
-                </div>
-                <div className="profile-section">
-                    <button className="profile-btn" onClick={toggleDropdown}>
-                        <FaUserCircle size={24} />
-                        Profile
-                    </button>
-                    {dropdownOpen && (
-                        <div className="dropdown-menu">
-                            <button onClick={handleLogout}>Logout</button>
-                        </div>
-                    )}
-                </div>
-            </nav>
-
-            {/* Listed Products Section */}
-            <div className="listed-products">
-                <h2 className="section-title">Your Listed Products</h2>
-                <div className="product-grid">
-                    {products.length === 0 ? (
-                        <p>No products listed yet.</p>
-                    ) : (
-                        products.map((product) => (
-                            <div key={product.id} className="product-card">
-                                <img src={product.image} alt={product.title} />
-                                <div className="product-info">
-                                    <h3>{product.title}</h3>
-                                    <p>{product.price}</p>
-                                </div>
-                                <div className="product-actions">
-                                    <button className="edit-btn"><FaEdit /> Edit</button>
-                                    <button className="delete-btn"><FaTrash /> Delete</button>
-                                </div>
-                            </div>
-                        ))
-                    )}
-                </div>
-            </div>
-
-            {/* List New Product Section */}
-            <div className="list-product-container">
-                <h2 className="section-title">List New Product</h2>
-
-                <div className="list-product-content">
-                    {/* Category List */}
-                    <div className="category-section">
-                        {categories.map((category, index) => (
-                            <div
-                                key={index}
-                                className={`category-item ${selectedCategory === category.name ? "active" : ""}`}
-                                onClick={() => setSelectedCategory(category.name)}
-                            >
-                                <span className="category-icon">{category.icon}</span>
-                                <span className="category-name">{category.name}</span>
-                                <span className="category-arrow"><FaArrowRight /></span>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Product Form */}
-                    <div className={`product-form ${selectedCategory ? "show-form" : ""}`}>
-                        {selectedCategory && (
-                            <div className="form-content">
-                                <button
-                                    className="close-btn"
-                                    onClick={() => setSelectedCategory(null)}
-                                    style={{
-                                        position: "absolute",
-                                        top: "400px",
-                                        right: "100px",
-                                        background: "transparent",
-                                        border: "none",
-                                        cursor: "pointer"
-                                    }}
-                                >
-                                    <X size={20} />
-                                </button>
-                                <h3>Add {selectedCategory}</h3>
-
-                                {/* Updated Form */}
-                                <div className="product-form-container">
-                                    <div className="form-header">
-                                        <h2>Upload Product</h2>
-
-                                    </div>
-
-                                    {/* Input Fields */}
-                                    <div className="form-fields">
-                                        <input
-                                            type="text"
-                                            placeholder="Product Name"
-                                            className="input-field"
-                                            value={productName}
-                                            onChange={(e) => setProductName(e.target.value)}
-                                        />
-                                        <input
-                                            type="text"
-                                            placeholder="Description"
-                                            className="input-field"
-                                            value={description}
-                                            onChange={(e) => setDescription(e.target.value)}
-                                        />
-
-                                        {/* Image Upload */}
-                                        <label className="upload-box">
-                                            <input type="file" className="hidden" multiple onChange={handleImageUpload} />
-                                            <div className="upload-placeholder">
-                                                <UploadCloud size={40} className="upload-icon" />
-                                                <p>Upload Product Images</p>
-                                            </div>
-                                        </label>
-
-                                        {/* Image Previews */}
-                                        <div className="image-preview-container">
-                                            {productImages.map((img, index) => (
-                                                <img key={index} src={img} alt="Preview" className="preview-image" />
-                                            ))}
-                                        </div>
-
-                                        {/* Price Fields */}
-                                        <input
-                                            type="number"
-                                            placeholder="Selling Price (₹)"
-                                            className="input-field"
-                                            value={price}
-                                            onChange={(e) => setPrice(e.target.value)}
-                                        />
-
-                                        {/* WhatsApp & Email Fields */}
-                                        <input
-                                            type="text"
-                                            placeholder="Your WhatsApp Number"
-                                            className="input-field"
-                                            value={whatsapp}
-                                            onChange={(e) => setWhatsapp(e.target.value)}
-                                        />
-                                        <input
-                                            type="email"
-                                            placeholder="Your Email ID"
-                                            className="input-field"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                        />
-
-                                        {/* Submit Button */}
-                                        <button className="submit-btn" onClick={handleSubmit}>Submit</button>
-                                    </div>
-                                </div>
+            <div>
+                {/* ✅ Navigation Bar */}
+                <nav className="seller-navbar">
+                    <div className="navbar-title">Engimart Sellers</div>
+                    <div className="profile-section">
+                        <button className="profile-btn" onClick={() => setDropdownOpen(!dropdownOpen)}>
+                            <FaUserCircle size={24} /> Profile
+                        </button>
+                        {dropdownOpen && (
+                            <div className="dropdown-menu">
+                                <button onClick={() => { localStorage.removeItem("token"); navigate("/login"); }}>Logout</button>
                             </div>
                         )}
                     </div>
-                </div>
-            </div>
+                </nav>
 
-            <Footer />
-        </div>
-    );
+
+                {/* ✅ Display Uploaded Products in Real-Time */}
+                <div className="list-product-container">
+                    <h2 className="section-title">Your listed Product</h2>
+                    <div className="product-list">
+                        {products.length > 0 ? (
+                            products.map((product) => (
+                                <div key={product._id} className="product-card">
+                                    <img src={product.image} alt={product.title} className="product-image" />
+                                    <h3>{product.title}</h3>
+                                    <p><strong>Price:</strong> ₹{product.price}</p>
+                                </div>
+                            ))
+                        ) : (
+                            <p>No products uploaded yet.</p>
+                        )}
+                    </div>
+                </div>
+
+        
+                {/* ✅ Section to List New Product */}
+                <div className="list-product-container">
+                    <h2 className="section-title">List New Product</h2>
+                    <div className="list-product-content">
+                        {/* ✅ Categories Selection */}
+                        <div className="category-section">
+                            {categories.map((category) => (
+                                <div 
+                                    key={category.name} 
+                                    className={`category-item ${data.category === category.name ? "active" : ""}`} 
+                                    onClick={() => setData({ ...data, category: category.name })}
+                                >
+                                    <span className="category-icon">{category.icon}</span>
+                                    <span className="category-name">{category.name}</span>
+                                    <span className="category-arrow"><FaArrowRight /></span>
+                                </div>
+                            ))}
+                        </div>
+        
+                        {/* ✅ Product Form */}
+                        <div className={`product-form ${data.category ? "show-form" : ""}`}>
+                            {data.category && (
+                                <div className="form-content">
+                                    <h3>Add {data.category}</h3>
+                                    <input 
+                                        type="text" 
+                                        name="productName" 
+                                        placeholder="Product Name" 
+                                        value={data.productName} 
+                                        onChange={handleOnChange} 
+                                    />
+                                    <input 
+                                        type="text" 
+                                        name="description" 
+                                        placeholder="Description" 
+                                        value={data.description} 
+                                        onChange={handleOnChange} 
+                                    />
+                                    <input 
+                                        type="number" 
+                                        name="price" 
+                                        placeholder="Selling Price (₹)" 
+                                        value={data.price} 
+                                        onChange={handleOnChange} 
+                                    />
+                                    <input 
+                                        type="text" 
+                                        name="whatsapp" 
+                                        placeholder="Your WhatsApp Number" 
+                                        value={data.whatsapp} 
+                                        onChange={handleOnChange} 
+                                    />
+                                    <input 
+                                        type="email" 
+                                        name="email" 
+                                        placeholder="Your Email ID" 
+                                        value={data.email} 
+                                        onChange={handleOnChange} 
+                                    />
+        
+                                    {/* ✅ File Upload (Supports Multiple Images) */}
+                                    <label className="upload-box">
+                                        <input type="file" className="hidden" multiple onChange={handleImageUpload} />
+                                        <div className="upload-placeholder">
+                                            <UploadCloud size={40} className="upload-icon" />
+                                            <p>Upload Product Images</p>
+                                        </div>
+                                    </label>
+        
+                                    {/* ✅ Image Previews */}
+                                    <div className="image-preview-container">
+                                        {data.productImage.map((img, index) => (
+                                            <div key={index} className="preview-wrapper">
+                                                <img src={img} alt="Preview" className="preview-image" />
+                                                <button onClick={() => handleDeleteProductImage(index)}>
+                                                    <FaTrash />
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+        
+                                    <button className="submit-btn" onClick={handleSubmit}>Submit</button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+                {/* ✅ Footer */}
+                <Footer />
+            </div>
+        );
 };
 
 export default Sell;

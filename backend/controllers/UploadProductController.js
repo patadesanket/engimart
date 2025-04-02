@@ -3,7 +3,7 @@ const cloudinary = require("../config/cloudinary");
 
 async function UploadProductController(req, res) {
     try {
-        const { title, description, price, whatsapp, email, category } = req.body;
+        const { title, description, price, whatsapp, email, category, image } = req.body;
 
         // Upload Image to Cloudinary (if provided)
         let imageUrl = null;
@@ -20,7 +20,7 @@ async function UploadProductController(req, res) {
             whatsapp,
             email,
             category,
-            image: imageUrl, // Stores Cloudinary image URL
+            image: image,// Stores Cloudinary image URL
         });
 
         const savedProduct = await newProduct.save();
@@ -31,6 +31,8 @@ async function UploadProductController(req, res) {
             success: true,
             data: savedProduct,
         });
+        console.log("Request Body:", req.body);
+
     } catch (err) {
         res.status(400).json({
             message: err.message || err,

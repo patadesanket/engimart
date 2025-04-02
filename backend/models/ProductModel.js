@@ -7,7 +7,7 @@ const productSchema = new mongoose.Schema({
     whatsapp: String,
     email: String,
     category: String,
-    image: String, // Stores Cloudinary image URL
+    image: [String], // Stores Cloudinary image URL
 });
 
 module.exports = mongoose.model("Product", productSchema);
