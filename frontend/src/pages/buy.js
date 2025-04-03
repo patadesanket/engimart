@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Footer from "../components/Footer";
 import { FaArrowLeft, FaWhatsapp, FaEnvelope } from "react-icons/fa";
+import "./buy.css";
+
 
 const Buy = () => {
     const navigate = useNavigate();
@@ -11,15 +13,21 @@ const Buy = () => {
 
     // Fetch product details from location.state
     useEffect(() => {
-        if (location.state?.product) {
+        if (!location.state?.product) {
+            navigate("/"); // Redirect to Home if no product is found
+        } else {
             setProductData(location.state.product);
-            setMainImage(location.state.product.images[0]); // Set first image as default
+            setMainImage(location.state.product.image?.[0] || ""); // Handle undefined image array
         }
-    }, [location.state]);
+    }, [location.state, navigate]);
 
+    // If data is missing, show loading
     if (!productData) {
         return <h1>Loading...</h1>;
     }
+
+    // Safe fallback for missing contact info
+    const contact = productData.contact || { whatsapp: "", email: "" };
 
     return (
         <div className="buying-page">
@@ -32,7 +40,7 @@ const Buy = () => {
             <div className="product-container">
                 {/* Image Column */}
                 <div className="image-column">
-                    {productData.images.map((img, index) => (
+                    {productData.image?.map((img, index) => (
                         <img
                             key={index}
                             src={img}
@@ -56,12 +64,16 @@ const Buy = () => {
 
                     <div className="contact-section">
                         <p>Contact Seller:</p>
-                        <a href={`https://wa.me/${productData.contact.whatsapp}`} target="_blank" rel="noopener noreferrer">
-                            <FaWhatsapp /> WhatsApp
-                        </a>
-                        <a href={`mailto:${productData.contact.email}`}>
-                            <FaEnvelope /> Email
-                        </a>
+                        {contact.whatsapp && (
+                            <a href={`https://wa.me/${contact.whatsapp}`} target="_blank" rel="noopener noreferrer">
+                                <FaWhatsapp /> WhatsApp
+                            </a>
+                        )}
+                        {contact.email && (
+                            <a href={`mailto:${contact.email}`}>
+                                <FaEnvelope /> Email
+                            </a>
+                        )}
                     </div>
                 </div>
             </div>

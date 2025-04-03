@@ -4,7 +4,7 @@ import "./Home.css";
 import Footer from "../components/Footer";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import About from "../components/About";
-
+import { Link, useNavigate } from "react-router-dom";
 const Home = () => {
   const words = ["Products", "Tools", "Aprons", "Stationary"];
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
@@ -89,7 +89,14 @@ const Home = () => {
                 <p className="product-name">{product.title}</p>
                 <p className="product-price">₹{product.price}</p>
                 <p className="product-original_price">{product.original_price || ""}</p>
-                <button className="buy-btn">Buy Now</button>
+                <Link
+                  to="/buy"
+                  state={{ product }}
+                  className="buy-btn"
+                  style={{ textDecoration: "none" }}
+                >
+                  Buy Now
+                </Link>
               </div>
             </div>
           ))}
