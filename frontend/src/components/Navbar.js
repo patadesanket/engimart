@@ -22,23 +22,29 @@ const Navbar = () => {
     window.location.reload();
   };
 
+  const scrollToAbout = (event) => {
+    event.preventDefault();
+    document.getElementById("about-section").scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <nav className="navbar">
+      {/* Left Section - Engimart Title */}
       <div className="navbar-left">
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </div>
-
-      <div className="navbar-center">
         <h1>Engimart</h1>
       </div>
 
-      <div className="navbar-right">
+      {/* Center Section - Search Box */}
+      <div className="navbar-center">
         <input
           type="text"
           placeholder="Search products..."
           className="search-box"
         />
+      </div>
+
+      {/* Right Section - Sell, Login, About */}
+      <div className="navbar-right">
         <Link to="/sell" className="sell-btn" style={{ textDecoration: "none" }}>
           Sell +
         </Link>
@@ -57,6 +63,10 @@ const Navbar = () => {
             Login
           </Link>
         )}
+
+         <a href="#about-section" className="about-link" onClick={scrollToAbout}>
+          About
+        </a>
       </div>
     </nav>
   );

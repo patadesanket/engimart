@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import './Home.css';
 import Footer from '../components/Footer';
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import About from "../components/About";
 
 
 
@@ -192,6 +193,7 @@ const Home = () => {
     ))}
   </div>
 </section>
+<About />
 
 <Footer />
 
