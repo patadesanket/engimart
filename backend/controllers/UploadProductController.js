@@ -3,7 +3,13 @@ const cloudinary = require("../config/cloudinary");
 
 async function UploadProductController(req, res) {
     try {
-        const { title, description, price, whatsapp, email, category, image } = req.body;
+        const { title, description, price, whatsapp,userId, email, category, image } = req.body;
+         
+        
+        if (!userId) {
+            console.error("❌ Missing User ID");
+            return res.status(400).json({ success: false, message: "User ID is required." });
+        }
 
         // Upload Image to Cloudinary (if provided)
         let imageUrl = null;
@@ -20,6 +26,7 @@ async function UploadProductController(req, res) {
             whatsapp,
             email,
             category,
+            userId,
             image: image,// Stores Cloudinary image URL
         });
 

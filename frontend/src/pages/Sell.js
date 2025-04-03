@@ -47,10 +47,18 @@ const Sell = () => {
 
     const fetchProducts = async () => {
         try {
+            const userId = localStorage.getItem("userId"); // ✅ Get userId from localStorage
             const response = await axios.get("http://localhost:5050/api/products");
-            setProducts(response.data);
+    
+            if (response.data.success) {
+                const userProducts = response.data.products.filter(
+                    (product) => product.userId === userId // ✅ Filter by userId
+                );
+    
+                setProducts(userProducts);
+            }
         } catch (error) {
-            console.error("Error fetching products:", error);
+            toast.error("Error fetching products!");
         }
     };
 
@@ -105,7 +113,19 @@ const Sell = () => {
             toast.error("Please select a category.");
             return;
         }
+
+        console.log("User ID from localStorage:", localStorage.getItem("userId"));
     
+        const userId = localStorage.getItem("userId");
+
+        console.log("User ID before sending:", userId);
+        
+        if (!userId) {
+            toast.error("User ID not found! Please log in again.");
+            navigate("/login"); // Redirect to login if userId is missing
+            return;
+        }
+
         const productData = {
             title: data.productName, // Match schema title field
             description: data.description,
@@ -114,14 +134,22 @@ const Sell = () => {
             email: data.email,
             category: data.category,
             image: data.productImage.length > 0 ? data.productImage[0] : "", // ✅ Ensure correct key name
+            userId:userId,
         };
-    
+        
+        console.log("Submitting Product Data:", data);
+
         try {
+            
+
             const response = await axios.post("http://localhost:5050/api/products", productData, {
                 headers: { "Content-Type": "application/json" },
             });
+
+            console.log("API Response:", response.data);
     
             if (response.data.success) {
+
                 toast.success(response.data.message);
     
                 // ✅ Update product list immediately
