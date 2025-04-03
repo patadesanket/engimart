@@ -1,24 +1,39 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"; // Import axios
+import axios from "axios";
 import "./Home.css";
 import Footer from "../components/Footer";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import About from "../components/About";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import '@google/model-viewer';
+
+
 const Home = () => {
   const words = ["Products", "Tools", "Aprons", "Stationary"];
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [productIndex, setProductIndex] = useState(0);
   const [products, setProducts] = useState([]); // State to store products
+  const [modelIndex, setModelIndex] = useState(0);
+  const models = [
+    {
+      title: "CASIO Advanced Calculator",
+      description: "A detailed 3D model of a Casio Advanced Calculator.",
+      fileName: "casio_calculator.glb", // Updated to GLB file
+    },
+    {
+      title: "Arduino Uno R3, Elegoo",
+      description: "A 3D model of an Arduino Uno R3 microcontroller.",
+      fileName: "arduino_uno.glb", // Updated to GLB file
+    },
+  ];
+  
+
 
   // Fetch products from the backend
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get("http://localhost:5050/api/products"); // Replace with your actual backend URL
-         
-        const sortedProducts = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); 
-
+        const sortedProducts = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setProducts(sortedProducts);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -35,16 +50,17 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const nextProduct = () => {
-    setProductIndex((prevIndex) => (prevIndex + 1) % products.length);
+  const nextModel = () => {
+    setModelIndex((prevIndex) => (prevIndex + 1) % models.length);
   };
 
-  const prevProduct = () => {
-    setProductIndex((prevIndex) => (prevIndex - 1 + products.length) % products.length);
+  const prevModel = () => {
+    setModelIndex((prevIndex) => (prevIndex - 1 + models.length) % models.length);
   };
 
   return (
     <div>
+      {/* Hero Section */}
       <div className="hero-section">
         <div className="tagline">
           <h1>
@@ -55,32 +71,35 @@ const Home = () => {
           </h1>
         </div>
 
-        {products.length > 0 && (
-          <div className="product-showcase">
-            <button className="arrow-btn" onClick={prevProduct}>
-              <FiChevronLeft />
-            </button>
+        {/* 3D Model Showcase */}
+        <div className="model-showcase">
+          <button className="arrow-btn" onClick={prevModel}>
+            <FiChevronLeft />
+          </button>
 
-            <div className="producth-card">
-              <img
-                src={products[productIndex].image[0]}
-                alt={products[productIndex].title}
-                className="producth-image"
-              />
-              <div className="producth-info">
-                <h2>{products[productIndex].title}</h2>
-                <p>{products[productIndex].description}</p>
-                <button className="buy-now">Buy Now</button>
-              </div>
+          <div className="model-card">
+            <model-viewer
+              src={`/models/${models[modelIndex].fileName}`}
+              alt={models[modelIndex].title}
+              auto-rotate
+              camera-controls
+              autoplay
+              shadow-intensity="1"
+            ></model-viewer>
+
+            <div className="model-info">
+              <h2>{models[modelIndex].title}</h2>
+              <p>{models[modelIndex].description}</p>
             </div>
-
-            <button className="arrow-btn" onClick={nextProduct}>
-              <FiChevronRight />
-            </button>
           </div>
-        )}
+
+          <button className="arrow-btn" onClick={nextModel}>
+            <FiChevronRight />
+          </button>
+        </div>
       </div>
 
+      {/* Featured Products Section */}
       <section className="product-section">
         <h2 className="section-title">Our Featured Products</h2>
 
@@ -90,7 +109,6 @@ const Home = () => {
               <img src={product.image[0]} alt={product.title} className="product-img" />
               <div className="product-details">
                 <p className="product-name">{product.title}</p>
-
                 <p className="product-price">₹{product.price}</p>
                 <p className="product-original_price">{product.original_price || ""}</p>
                 <Link

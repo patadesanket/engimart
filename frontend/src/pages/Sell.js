@@ -8,6 +8,9 @@ import "./sell.css";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { FaArrowLeft } from "react-icons/fa";
+
+
 
 
 const Sell = () => {
@@ -43,18 +46,18 @@ const Sell = () => {
             fetchProducts();
         }
     }, []); // ✅ Remove [navigate], just run once when the page loads
-    
+
 
     const fetchProducts = async () => {
         try {
             const userId = localStorage.getItem("userId"); // ✅ Get userId from localStorage
             const response = await axios.get("http://localhost:5050/api/products");
-    
+
             if (response.data.success) {
                 const userProducts = response.data.products.filter(
                     (product) => product.userId === userId // ✅ Filter by userId
                 );
-    
+
                 setProducts(userProducts);
             }
         } catch (error) {
@@ -108,18 +111,18 @@ const Sell = () => {
     // ✅ Ensure product images are properly included in the API request
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
+
         if (!data.category) {
             toast.error("Please select a category.");
             return;
         }
 
         console.log("User ID from localStorage:", localStorage.getItem("userId"));
-    
+
         const userId = localStorage.getItem("userId");
 
         console.log("User ID before sending:", userId);
-        
+
         if (!userId) {
             toast.error("User ID not found! Please log in again.");
             navigate("/login"); // Redirect to login if userId is missing
@@ -134,27 +137,27 @@ const Sell = () => {
             email: data.email,
             category: data.category,
             image: data.productImage.length > 0 ? data.productImage[0] : "", // ✅ Ensure correct key name
-            userId:userId,
+            userId: userId,
         };
-        
+
         console.log("Submitting Product Data:", data);
 
         try {
-            
+
 
             const response = await axios.post("http://localhost:5050/api/products", productData, {
                 headers: { "Content-Type": "application/json" },
             });
 
             console.log("API Response:", response.data);
-    
+
             if (response.data.success) {
 
                 toast.success(response.data.message);
-    
+
                 // ✅ Update product list immediately
                 setProducts((prevProducts) => [...prevProducts, response.data.data]);
-    
+
                 // ✅ Reset the form
                 setData({
                     productName: "",
@@ -165,7 +168,7 @@ const Sell = () => {
                     category: "",
                     productImage: [],
                 });
-    
+
                 console.log("Submitting Data:", productData);
             } else {
                 toast.error(response.data.message);
@@ -174,137 +177,140 @@ const Sell = () => {
             toast.error("Error submitting form!");
         }
     };
-    
+
 
 
     return (
-            <div>
-                {/* ✅ Navigation Bar */}
-                <nav className="seller-navbar">
-                    <div className="navbar-title">Engimart Sellers</div>
-                    <div className="profile-section">
-                        <button className="profile-btn" onClick={() => setDropdownOpen(!dropdownOpen)}>
-                            <FaUserCircle size={24} /> Profile
-                        </button>
-                        {dropdownOpen && (
-                            <div className="dropdown-menu">
-                                <button onClick={() => { localStorage.removeItem("token"); navigate("/login"); }}>Logout</button>
+        <div>
+            {/* ✅ Navigation Bar */}
+            <nav className="seller-navbar">
+                <div className="back-arrow" onClick={() => navigate(-1)}>
+                    <FaArrowLeft size={22} />
+                </div>
+                <div className="navbar-title">Engimart Seller's</div>
+                <div className="profile-section">
+                    <button className="profile-btn" onClick={() => setDropdownOpen(!dropdownOpen)}>
+                        <FaUserCircle size={24} /> Profile
+                    </button>
+                    {dropdownOpen && (
+                        <div className="dropdown-menu">
+                            <button onClick={() => { localStorage.removeItem("token"); navigate("/login"); }}>Logout</button>
+                        </div>
+                    )}
+                </div>
+            </nav>
+
+
+            {/* ✅ Display Uploaded Products in Real-Time */}
+            <div className="list-product-container">
+                <h2 className="section-title">Your listed Product</h2>
+                <div className="product-list">
+                    {products.length > 0 ? (
+                        products.map((product) => (
+                            <div key={product._id} className="product-card">
+                                <img src={product.image} alt={product.title} className="product-image" />
+                                <h3>{product.title}</h3>
+                                <p><strong>Price:</strong> ₹{product.price}</p>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No products uploaded yet.</p>
+                    )}
+                </div>
+            </div>
+
+
+            {/* ✅ Section to List New Product */}
+            <div className="list-product-container">
+                <h2 className="section-title">List New Product</h2>
+                <div className="list-product-content">
+                    {/* ✅ Categories Selection */}
+                    <div className="category-section">
+                        {categories.map((category) => (
+                            <div
+                                key={category.name}
+                                className={`category-item ${data.category === category.name ? "active" : ""}`}
+                                onClick={() => setData({ ...data, category: category.name })}
+                            >
+                                <span className="category-icon">{category.icon}</span>
+                                <span className="category-name">{category.name}</span>
+                                <span className="category-arrow"><FaArrowRight /></span>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* ✅ Product Form */}
+                    <div className={`product-form ${data.category ? "show-form" : ""}`}>
+                        {data.category && (
+                            <div className="form-content">
+                                <h3>Add {data.category}</h3>
+                                <input
+                                    type="text"
+                                    name="productName"
+                                    placeholder="Product Name"
+                                    value={data.productName}
+                                    onChange={handleOnChange}
+                                />
+                                <input
+                                    type="text"
+                                    name="description"
+                                    placeholder="Description"
+                                    value={data.description}
+                                    onChange={handleOnChange}
+                                />
+                                <input
+                                    type="number"
+                                    name="price"
+                                    placeholder="Selling Price (₹)"
+                                    value={data.price}
+                                    onChange={handleOnChange}
+                                />
+                                <input
+                                    type="text"
+                                    name="whatsapp"
+                                    placeholder="Your WhatsApp Number"
+                                    value={data.whatsapp}
+                                    onChange={handleOnChange}
+                                />
+                                <input
+                                    type="email"
+                                    name="email"
+                                    placeholder="Your Email ID"
+                                    value={data.email}
+                                    onChange={handleOnChange}
+                                />
+
+                                {/* ✅ File Upload (Supports Multiple Images) */}
+                                <label className="upload-box">
+                                    <input type="file" className="hidden" multiple onChange={handleImageUpload} />
+                                    <div className="upload-placeholder">
+                                        <UploadCloud size={40} className="upload-icon" />
+                                        <p>Upload Product Images</p>
+                                    </div>
+                                </label>
+
+                                {/* ✅ Image Previews */}
+                                <div className="image-preview-container">
+                                    {data.productImage.map((img, index) => (
+                                        <div key={index} className="preview-wrapper">
+                                            <img src={img} alt="Preview" className="preview-image" />
+                                            <button onClick={() => handleDeleteProductImage(index)}>
+                                                <FaTrash />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <button className="submit-btn" onClick={handleSubmit}>Submit</button>
                             </div>
                         )}
                     </div>
-                </nav>
-
-
-                {/* ✅ Display Uploaded Products in Real-Time */}
-                <div className="list-product-container">
-                    <h2 className="section-title">Your listed Product</h2>
-                    <div className="product-list">
-                        {products.length > 0 ? (
-                            products.map((product) => (
-                                <div key={product._id} className="product-card">
-                                    <img src={product.image} alt={product.title} className="product-image" />
-                                    <h3>{product.title}</h3>
-                                    <p><strong>Price:</strong> ₹{product.price}</p>
-                                </div>
-                            ))
-                        ) : (
-                            <p>No products uploaded yet.</p>
-                        )}
-                    </div>
                 </div>
-
-        
-                {/* ✅ Section to List New Product */}
-                <div className="list-product-container">
-                    <h2 className="section-title">List New Product</h2>
-                    <div className="list-product-content">
-                        {/* ✅ Categories Selection */}
-                        <div className="category-section">
-                            {categories.map((category) => (
-                                <div 
-                                    key={category.name} 
-                                    className={`category-item ${data.category === category.name ? "active" : ""}`} 
-                                    onClick={() => setData({ ...data, category: category.name })}
-                                >
-                                    <span className="category-icon">{category.icon}</span>
-                                    <span className="category-name">{category.name}</span>
-                                    <span className="category-arrow"><FaArrowRight /></span>
-                                </div>
-                            ))}
-                        </div>
-        
-                        {/* ✅ Product Form */}
-                        <div className={`product-form ${data.category ? "show-form" : ""}`}>
-                            {data.category && (
-                                <div className="form-content">
-                                    <h3>Add {data.category}</h3>
-                                    <input 
-                                        type="text" 
-                                        name="productName" 
-                                        placeholder="Product Name" 
-                                        value={data.productName} 
-                                        onChange={handleOnChange} 
-                                    />
-                                    <input 
-                                        type="text" 
-                                        name="description" 
-                                        placeholder="Description" 
-                                        value={data.description} 
-                                        onChange={handleOnChange} 
-                                    />
-                                    <input 
-                                        type="number" 
-                                        name="price" 
-                                        placeholder="Selling Price (₹)" 
-                                        value={data.price} 
-                                        onChange={handleOnChange} 
-                                    />
-                                    <input 
-                                        type="text" 
-                                        name="whatsapp" 
-                                        placeholder="Your WhatsApp Number" 
-                                        value={data.whatsapp} 
-                                        onChange={handleOnChange} 
-                                    />
-                                    <input 
-                                        type="email" 
-                                        name="email" 
-                                        placeholder="Your Email ID" 
-                                        value={data.email} 
-                                        onChange={handleOnChange} 
-                                    />
-        
-                                    {/* ✅ File Upload (Supports Multiple Images) */}
-                                    <label className="upload-box">
-                                        <input type="file" className="hidden" multiple onChange={handleImageUpload} />
-                                        <div className="upload-placeholder">
-                                            <UploadCloud size={40} className="upload-icon" />
-                                            <p>Upload Product Images</p>
-                                        </div>
-                                    </label>
-        
-                                    {/* ✅ Image Previews */}
-                                    <div className="image-preview-container">
-                                        {data.productImage.map((img, index) => (
-                                            <div key={index} className="preview-wrapper">
-                                                <img src={img} alt="Preview" className="preview-image" />
-                                                <button onClick={() => handleDeleteProductImage(index)}>
-                                                    <FaTrash />
-                                                </button>
-                                            </div>
-                                        ))}
-                                    </div>
-        
-                                    <button className="submit-btn" onClick={handleSubmit}>Submit</button>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-                {/* ✅ Footer */}
-                <Footer />
             </div>
-        );
+            {/* ✅ Footer */}
+            <Footer />
+        </div>
+    );
 };
 
 export default Sell;

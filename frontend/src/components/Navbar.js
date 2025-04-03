@@ -26,7 +26,7 @@ const Navbar = () => {
     event.preventDefault();
     document.getElementById("about-section").scrollIntoView({ behavior: "smooth" });
   };
-
+  
   return (
     <nav className="navbar">
       {/* Left Section - Engimart Title */}
@@ -64,9 +64,7 @@ const Navbar = () => {
           </Link>
         )}
 
-         <a href="#about-section" className="about-link" onClick={scrollToAbout}>
-          About
-        </a>
+        <a href="#about" className="about-link">About</a>
       </div>
     </nav>
   );

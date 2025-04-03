@@ -1,35 +1,31 @@
-/* Navbar Styling */
 .seller-navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #007bff;
+    background-color: #2d3864;
     padding: 15px 20px;
     color: white;
     font-size: 18px;
+    position: relative;
+}
+
+.back-arrow {
+    cursor: pointer;
+    margin-right: 20px;
 }
 
 .navbar-title {
     font-weight: bold;
     font-size: 22px;
-}
-
-.navbar-search {
     flex-grow: 1;
-    margin: 0 20px;
-    padding: 8px 12px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    width: 40%;
+    text-align: center;
 }
 
-.navbar-links a {
-    margin: 0 15px;
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
+.profile-section {
+    display: flex;
+    align-items: center;
 }
+
 
 .profile-section {
     position: relative;
@@ -97,7 +93,7 @@
 /* Product Card */
 .product-card {
     position: relative;
-    background: white;
+    background: rgb(247, 211, 171);
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -209,7 +205,7 @@
 .list-product-container {
     margin: 40px;
     padding: 20px;
-    background: white;
+    background: #f1f1f1;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -253,47 +249,54 @@
 
 .category-item:hover,
 .category-item.active {
-    background: #007bff;
+    background: #2d3864;
     color: white;
 }
 
-
-/* Form Container */
-.form-container {
+/* 🌟 Form Container */
+.product-form {
     background: #ffffff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 500px;
+    margin: auto;
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    display: none;
 }
 
-/* Input Fields */
-.input-field {
-    width: 100%;
+/* Show form when category is selected */
+.show-form {
+    display: block;
+}
+
+/* 🌟 Form Content */
+.form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* 🌟 Input Fields */
+.form-content input {
+    width: 90%;
     padding: 12px;
-    margin-bottom: 12px;
-    border: 1px solid #b4dfe5; /* Light blue border */
+    border: 1px solid #f4976c; /* Light blue */
     border-radius: 5px;
     font-size: 16px;
-    background-color: #d2fdff; /* Light cyan */
+    background-color: #fbe8a6; /* Light cyan */
     color: #303c6c; /* Dark navy blue */
 }
 
-.input-field:focus {
+.form-content input:focus {
     outline: none;
-    border-color: #303c6c; /* Dark navy blue focus */
+    border-color: #303c6c;
     box-shadow: 0 0 5px rgba(48, 60, 108, 0.3);
 }
 
-/* Category Dropdown */
-.input-field select {
-    cursor: pointer;
-}
-
-/* Image Upload */
-.image-upload {
+/* 🌟 File Upload Box */
+.upload-box {
     border: 2px dashed #f4976c; /* Warm orange */
     padding: 20px;
     text-align: center;
@@ -304,14 +307,42 @@
     transition: background 0.3s ease-in-out;
 }
 
-.image-upload:hover {
-    background: #f4976c; /* Warm orange hover */
+.upload-box input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.upload-box:hover {
+    background: #f4976c; /* Warm orange */
     color: white;
 }
 
-.image-upload img {
-    max-height: 100px;
+/* 🌟 Upload Icon */
+.upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.upload-icon {
+    color: #f4976c;
+}
+
+/* 🌟 Image Previews */
+.image-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     margin-top: 10px;
+}
+
+.preview-wrapper {
+    position: relative;
+    display: inline-block;
 }
 
 .preview-image {
@@ -319,11 +350,26 @@
     height: 80px;
     object-fit: cover;
     border-radius: 8px;
-    margin: 5px;
-    border: 2px solid #303c6c; /* Dark navy blue border */
+    border: 2px solid #303c6c; /* Dark navy blue */
 }
 
-/* Submit Button */
+.preview-wrapper button {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 🌟 Submit Button */
 .submit-btn {
     width: 100%;
     background: #f4976c; /* Warm orange */
@@ -340,6 +386,7 @@
 .submit-btn:hover {
     background: #d9534f; /* Darker orange-red */
 }
+
 
 /* Responsive Design */
 @media (max-width: 600px) {
