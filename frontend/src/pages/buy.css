@@ -1,9 +1,10 @@
 /* Buy Page Styling */
 .buying-page {
-    max-width: 1200px;
+    width: full;
     margin: auto;
     padding: 20px;
-    font-family: Arial, sans-serif;
+    font-family: "Poppins", sans-serif;
+    background-color: white;
 }
 
 /* Back Navigation */
@@ -16,35 +17,41 @@
     color: #007bff;
     margin-bottom: 20px;
     font-weight: bold;
+    transition: color 0.3s ease-in-out;
 }
 
 .back-nav:hover {
     text-decoration: underline;
+    color: #0056b3;
 }
 
 /* Product Container */
 .product-container {
     display: flex;
-    gap: 20px;
+    gap: 30px;
     justify-content: center;
     flex-wrap: wrap;
     align-items: flex-start;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Image Column */
 .image-column {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
 }
 
 .image-column img {
     width: 80px;
     height: 80px;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.2s ease-in-out, border 0.3s;
 }
 
 .image-column img:hover {
@@ -62,8 +69,8 @@
     width: 400px;
     height: auto;
     max-width: 100%;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Product Details */
@@ -73,46 +80,87 @@
 }
 
 .product-details h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
+    font-size: 26px;
+    margin-bottom: 12px;
+    color: #333;
 }
 
 .product-details .description {
     font-size: 16px;
     color: #555;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .product-details .price {
-    font-size: 20px;
+    font-size: 22px;
     color: #e63946;
     font-weight: bold;
-    margin-bottom: 15px;
+    margin-bottom: 18px;
 }
 
 /* Contact Section */
 .contact-section {
-    margin-top: 15px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .contact-section p {
     font-weight: bold;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
 }
 
 .contact-section a {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     text-decoration: none;
     font-size: 16px;
-    color: #007bff;
-    margin-top: 8px;
-    transition: 0.3s;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+    width: 100%;
+    max-width: 260px;
+    justify-content: center;
 }
 
 .contact-section a:hover {
-    text-decoration: underline;
-    color: #0056b3;
+    transform: scale(1.05);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* WhatsApp & Email Buttons */
+.whatsapp-btn {
+    background-color: #25D366;
+    color: white;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.whatsapp-btn:hover {
+    background-color: #1EBE5D;
+}
+
+.email-btn {
+    background-color: #007BFF;
+    color: white;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+
+.email-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Footer Styling */
+.footer {
+    background-color: #f1f1f1;
+    padding: 20px;
+    text-align: center;
+    margin-top: 40px;
 }
 
 /* Responsive Design */
@@ -120,11 +168,13 @@
     .product-container {
         flex-direction: column;
         align-items: center;
+        padding: 15px;
     }
 
     .image-column {
         flex-direction: row;
         justify-content: center;
+        gap: 8px;
     }
 
     .image-column img {

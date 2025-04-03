@@ -9,6 +9,8 @@ const productSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     category: String,
     image: [String], // Stores Cloudinary image URL
-});
+},
+{ timestamps: true }
+);
 
 module.exports = mongoose.model("Product", productSchema);

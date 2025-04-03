@@ -4,7 +4,7 @@ import "./Home.css";
 import Footer from "../components/Footer";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import About from "../components/About";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 const Home = () => {
   const words = ["Products", "Tools", "Aprons", "Stationary"];
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
@@ -16,7 +16,10 @@ const Home = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get("http://localhost:5050/api/products"); // Replace with your actual backend URL
-        setProducts(response.data);
+         
+        const sortedProducts = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); 
+
+        setProducts(sortedProducts);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -87,6 +90,7 @@ const Home = () => {
               <img src={product.image[0]} alt={product.title} className="product-img" />
               <div className="product-details">
                 <p className="product-name">{product.title}</p>
+
                 <p className="product-price">₹{product.price}</p>
                 <p className="product-original_price">{product.original_price || ""}</p>
                 <Link

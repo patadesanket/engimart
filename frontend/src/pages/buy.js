@@ -4,7 +4,6 @@ import Footer from "../components/Footer";
 import { FaArrowLeft, FaWhatsapp, FaEnvelope } from "react-icons/fa";
 import "./buy.css";
 
-
 const Buy = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -25,9 +24,6 @@ const Buy = () => {
     if (!productData) {
         return <h1>Loading...</h1>;
     }
-
-    // Safe fallback for missing contact info
-    const contact = productData.contact || { whatsapp: "", email: "" };
 
     return (
         <div className="buying-page">
@@ -60,18 +56,19 @@ const Buy = () => {
                 <div className="product-details">
                     <h2>{productData.title}</h2>
                     <p className="description">{productData.description}</p>
-                    <p className="price">₹{productData.price}</p>
+                    <p className="price">Price: ₹{productData.price}</p>
 
+                    {/* Contact Section */}
                     <div className="contact-section">
                         <p>Contact Seller:</p>
-                        {contact.whatsapp && (
-                            <a href={`https://wa.me/${contact.whatsapp}`} target="_blank" rel="noopener noreferrer">
-                                <FaWhatsapp /> WhatsApp
+                        {productData.whatsapp && (
+                            <a href={`https://wa.me/${productData.whatsapp}`} target="_blank" rel="noopener noreferrer" className="whatsapp-btn">
+                                <FaWhatsapp /> Chat on WhatsApp
                             </a>
                         )}
-                        {contact.email && (
-                            <a href={`mailto:${contact.email}`}>
-                                <FaEnvelope /> Email
+                        {productData.email && (
+                            <a href={`mailto:${productData.email}`} className="email-btn">
+                                <FaEnvelope /> Send Email
                             </a>
                         )}
                     </div>
