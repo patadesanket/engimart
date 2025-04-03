@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react"; 
+import React, { useState, useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios"; // ✅ Switched to axios for consistency
 import "react-toastify/dist/ReactToastify.css";
 import "./signIn.css";
 
@@ -13,9 +14,16 @@ const SignIn = () => {
 
     // 🔹 Prevent access to login page if already logged in
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            navigate("/"); // Redirect to home page if already logged in
+        try {
+            const token = localStorage.getItem("token");
+
+            
+
+            if (token) {
+                navigate("/"); // Redirect to home page if already logged in
+            }
+        } catch (error) {
+            console.error("Error checking login status:", error);
         }
     }, [navigate]);
 
@@ -33,28 +41,33 @@ const SignIn = () => {
         }
 
         try {
-            const response = await fetch("http://localhost:5050/api/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
-            });
+            const response = await axios.post("http://localhost:5050/api/login", formData);
 
-            const data = await response.json();
+            console.log("API Response:", response.data);
 
-            if (data.success) {
+            if (response.data.success) {
                 toast.success("Login Successful!", { position: "top-right", autoClose: 2000 });
 
-                localStorage.setItem("token", data.token);
-                localStorage.setItem("user", JSON.stringify(data.user));
+                // console.log("Logged-in User ID:", currentUser._id);
 
-                
+
+                // ✅ Store user details
+                localStorage.setItem("token", response.data.token);
+                localStorage.setItem("userId", response.data.user.id); // ✅ Now storing `userId`
+                localStorage.setItem("user", JSON.stringify(response.data.user));
+
+
+                console.log("Stored User ID:", response.data.user.id);
+                console.log("Stored Token:", response.data.token);
+
+                // ✅ Redirect to dashboard
                 setTimeout(() => {
                     navigate("/", { replace: true }); // Redirect without keeping login in history
                     window.history.pushState(null, "", "/");
                 }, 2000);
             } else {
-                setErrorMessage(data.message);
-                toast.error(data.message, { position: "top-right", autoClose: 3000 });
+                setErrorMessage(response.data.message);
+                toast.error(response.data.message, { position: "top-right", autoClose: 3000 });
             }
         } catch (error) {
             toast.error("Error: Could not log in.", { position: "top-right", autoClose: 3000 });
@@ -71,29 +84,29 @@ const SignIn = () => {
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="input-container">
                         <label className="input-label">Email</label>
-                        <input 
-                            type="email" 
-                            name="email" 
-                            value={formData.email} 
-                            onChange={handleChange} 
+                        <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
                             className="input-field"
-                            placeholder="Enter your email" 
+                            placeholder="Enter your email"
                             required
                         />
                     </div>
                     <div className="input-container">
                         <label className="input-label">Password</label>
                         <div className="password-container">
-                            <input 
-                                type={showPassword ? "text" : "password"} 
-                                name="password" 
-                                value={formData.password} 
-                                onChange={handleChange} 
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
                                 className="input-field"
-                                placeholder="Enter your password" 
+                                placeholder="Enter your password"
                                 required
                             />
-                            <span 
+                            <span
                                 className="password-toggle"
                                 onClick={() => setShowPassword(!showPassword)}>
                                 {showPassword ? <FaEyeSlash /> : <FaEye />}
