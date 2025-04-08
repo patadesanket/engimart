@@ -35,10 +35,10 @@ const About = () => {
           <p>Meet the team behind Engimart!</p>
 
         <div className="developer-cards">
-          <a href="https://github.com/developer1" target="_blank" rel="noopener noreferrer" className="developer-card">
+          <a href="https://github.com/PranayMetkari" target="_blank" rel="noopener noreferrer" className="developer-card">
             <h4>Pranay Metkari</h4>
           </a>
-          <a href="https://github.com/developer2" target="_blank" rel="noopener noreferrer" className="developer-card">
+          <a href="https://github.com/Ritvik081204" target="_blank" rel="noopener noreferrer" className="developer-card">
             <h4>Ritvik Salian</h4>
           </a>
           <a href="https://github.com/patadesanket" target="_blank" rel="noopener noreferrer" className="developer-card">

@@ -61,14 +61,35 @@ const Buy = () => {
                     {/* Contact Section */}
                     <div className="contact-section">
                         <p>Contact Seller:</p>
+
                         {productData.whatsapp && (
-                            <a href={`https://wa.me/${productData.whatsapp}`} target="_blank" rel="noopener noreferrer" className="whatsapp-btn">
+                            <a
+                                href={`https://wa.me/${productData.whatsapp}?text=${encodeURIComponent(
+                                    `Hello, I am ${localStorage.getItem("userName") || "a potential buyer"}.\n\n` +
+                                    `I'm interested in your product:\n🔹 Product Name: ${productData.title}\n` +
+                                    `🔹 Description: ${productData.description}\n🔹 Price: ${productData.price}\n\n` +
+                                    `Please let me know more details.`
+                                )}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="whatsapp-btn"
+                            >
                                 <FaWhatsapp /> Chat on WhatsApp
                             </a>
                         )}
+
                         {productData.email && (
-                            <a href={`mailto:${productData.email}`} className="email-btn">
-                                <FaEnvelope /> Send Email
+                            <a
+                                href={`mailto:${productData.email}?subject=Interested%20in%20your%20product&body=${encodeURIComponent(
+                                    `Hello,\n\nI am interested in your product:\n\n` +
+                                    `🔹 Product Name: ${productData.title}\n` +
+                                    `🔹 Description: ${productData.description}\n` +
+                                    `🔹 Price: ₹${productData.price}\n\n` +
+                                    `Please provide more details.\n\nThank you!`
+                                )}`}
+                                className="email-btn"
+                            >
+                                <FaEnvelope /> Contact via Email
                             </a>
                         )}
                     </div>
