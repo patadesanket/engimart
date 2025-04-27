@@ -11,7 +11,7 @@ async function UploadProductController(req, res) {
             return res.status(400).json({ success: false, message: "User ID is required." });
         }
 
-        // Upload Image to Cloudinary (if provided)
+      
         let imageUrl = null;
         if (req.file) {
             const result = await cloudinary.uploader.upload(req.file.path);
@@ -27,7 +27,7 @@ async function UploadProductController(req, res) {
             email,
             category,
             userId,
-            image: image,// Stores Cloudinary image URL
+            image: image,// Cloudinary image URL
         });
 
         const savedProduct = await newProduct.save();

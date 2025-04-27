@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Import Toast CSS
-import "./signUp.css"; // Import the CSS file
+import "react-toastify/dist/ReactToastify.css"; 
+import "./signUp.css";
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
     const [errorMessage, setErrorMessage] = useState("");
-    const navigate = useNavigate(); // Hook for navigation
+    const navigate = useNavigate(); 
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -30,14 +30,14 @@ const SignUp = () => {
         }
 
         try {
-            const response = await fetch("http://localhost:5050/api/sign-up", { // Ensure correct API endpoint
+            const response = await fetch("http://localhost:5050/api/sign-up", { 
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     name: formData.name,
                     email: formData.email,
                     password: formData.password,
-                    role: "buyer" // Include role as per backend
+                    role: "buyer" 
                 })
             });
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios"; // ✅ Switched to axios for consistency
+import axios from "axios"; 
 import "react-toastify/dist/ReactToastify.css";
 import "./signIn.css";
 
@@ -12,7 +12,7 @@ const SignIn = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
-    // 🔹 Prevent access to login page if already logged in
+    // Prevent access to login page if already logged in
     useEffect(() => {
         try {
             const token = localStorage.getItem("token");
@@ -20,7 +20,7 @@ const SignIn = () => {
 
 
             if (token) {
-                navigate("/"); // Redirect to home page if already logged in
+                navigate("/"); 
             }
         } catch (error) {
             console.error("Error checking login status:", error);
@@ -52,12 +52,11 @@ const SignIn = () => {
             if (response.data.success) {
                 toast.success("Login Successful!", { position: "top-right", autoClose: 2000 });
 
-                // console.log("Logged-in User ID:", currentUser._id);
 
 
                 // ✅ Store user details
                 localStorage.setItem("token", response.data.token);
-                localStorage.setItem("userId", response.data.user.id); // ✅ Now storing `userId`
+                localStorage.setItem("userId", response.data.user.id); 
                 localStorage.setItem("user", JSON.stringify(response.data.user));
                 localStorage.setItem("userName", response.data.user.name);
 
@@ -68,9 +67,9 @@ const SignIn = () => {
                 console.log("Stored User ID:", response.data.user.id);
                 console.log("Stored Token:", response.data.token);
 
-                // ✅ Redirect to dashboard
+                // Redirect to dashboard
                 setTimeout(() => {
-                    navigate("/", { replace: true }); // Redirect without keeping login in history
+                    navigate("/", { replace: true }); 
                     window.history.pushState(null, "", "/");
                 }, 2000);
             } else {

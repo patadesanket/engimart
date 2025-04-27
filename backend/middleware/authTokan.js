@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const authMiddleware = (req, res, next) => {
-    // ✅ Check if token is in cookies
+   
     const token = req.cookies?.token || req.headers.authorization?.split(" ")[1];
 
     if (!token) {

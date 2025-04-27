@@ -11,7 +11,7 @@ const Buy = () => {
     const [mainImage, setMainImage] = useState("");
     const [userName, setUserName] = useState("");
     const [whatsappLink, setWhatsappLink] = useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(false);  // ✅ New state to check login
+    const [isLoggedIn, setIsLoggedIn] = useState(false);  
 
     useEffect(() => {
         if (!location.state?.product) {
@@ -24,11 +24,11 @@ const Buy = () => {
 
     useEffect(() => {
         const storedName = localStorage.getItem("userName");
-        const token = localStorage.getItem("token"); // ✅ Checking if token exists
+        const token = localStorage.getItem("token"); 
         console.log("Fetched userName from localStorage:", storedName);
 
         setUserName(storedName || "a potential buyer");
-        setIsLoggedIn(!!token); // ✅ If token exists, set login status to true
+        setIsLoggedIn(!!token); 
     }, []);
 
     useEffect(() => {

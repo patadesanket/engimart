@@ -2,12 +2,11 @@ const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require("../config/cloudinary");
 
-// Configure Multer Storage for Cloudinary
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-        folder: "engimart_products",  // Cloudinary folder name
-        format: async (req, file) => "png", // Convert all images to PNG
+        folder: "engimart_products", 
+        format: async (req, file) => "png", 
         public_id: (req, file) => Date.now() + "-" + file.originalname,
     },
 });

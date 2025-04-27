@@ -8,7 +8,7 @@ const productSchema = new mongoose.Schema({
     email: String,
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     category: String,
-    image: [String], // Stores Cloudinary image URL
+    image: [String], 
 },
 { timestamps: true }
 );

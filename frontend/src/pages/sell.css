@@ -84,7 +84,7 @@
 /* ✅ Updated Product Grid for 4 Cards Per Row */
 .product-list {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* ✅ Ensures 4 cards in one row */
+    grid-template-columns: repeat(4, 1fr); /* ✅ Ensures 4 cards in one row */
     gap: 20px;
     justify-content: center;
     padding: 20px;
@@ -100,6 +100,7 @@
     text-align: center;
     transition: transform 0.3s, background 0.3s;
 }
+
 
 /* ✅ Ensure Image is Properly Sized */
 .product-card img {

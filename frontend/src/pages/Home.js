@@ -108,18 +108,18 @@ const Home = () => {
               shadow-intensity="1"
             ></model-viewer> */}
 
-<model-viewer
-  src={`/models/${models[modelIndex].fileName}`}
-  alt={models[modelIndex].title}
-  auto-rotate
-  camera-controls
-  autoplay
-  shadow-intensity="1"
-  exposure="1"
-  style={{ objectFit: "contain" }}
-  reveal="auto"
-  loading="eager"
-></model-viewer>
+            <model-viewer
+              src={`/models/${models[modelIndex].fileName}`}
+              alt={models[modelIndex].title}
+              auto-rotate
+              camera-controls
+              autoplay
+              shadow-intensity="1"
+              exposure="1"
+              style={{ objectFit: "contain" }}
+              reveal="auto"
+              loading="eager"
+            ></model-viewer>
 
 
             <div className="model-info">

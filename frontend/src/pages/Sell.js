@@ -45,21 +45,23 @@ const Sell = () => {
         } else {
             fetchProducts();
         }
-    }, []); // ✅ Remove [navigate], just run once when the page loads
+    }, []); 
 
 
     const fetchProducts = async () => {
         try {
-            const userId = localStorage.getItem("userId"); // ✅ Get userId from localStorage
+            const userId = localStorage.getItem("userId"); 
             const response = await axios.get("http://localhost:5050/api/products");
 
-            if (response.data.success) {
-                const userProducts = response.data.products.filter(
-                    (product) => product.userId === userId // ✅ Filter by userId
+            if (response.data) {
+                const userProducts = response.data.filter(
+                    (product) => product.userId === userId 
+
                 );
 
                 setProducts(userProducts);
             }
+
         } catch (error) {
             toast.error("Error fetching products!");
         }
@@ -70,7 +72,7 @@ const Sell = () => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
 
-    // ✅ Modified to support multiple images
+    
     const handleImageUpload = async (event) => {
         const files = Array.from(event.target.files);
         if (!files.length) return;
@@ -90,14 +92,14 @@ const Sell = () => {
             }
         }
 
-        // ✅ Update state with new images
+        
         setData((prev) => ({
             ...prev,
             productImage: [...prev.productImage, ...uploadedImages],
         }));
     };
 
-    // ✅ Delete a selected image
+    
     const handleDeleteProductImage = (index) => {
         setData((prev) => ({
             ...prev,
@@ -106,9 +108,24 @@ const Sell = () => {
     };
 
 
+    const handleDelete = async (productId) => {
+        try {
+            const response = await axios.delete(`http://localhost:5050/api/products/${productId}`);
+            
+            if (response.status === 200) {
+                
+                setProducts((prevProducts) => prevProducts.filter(product => product._id !== productId));
+            } else {
+                console.error("Failed to delete product:", response.data.message);
+            }
+        } catch (error) {
+            console.error("Error deleting product:", error);
+        }
+    };
 
 
-    // ✅ Ensure product images are properly included in the API request
+
+   
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -125,18 +142,18 @@ const Sell = () => {
 
         if (!userId) {
             toast.error("User ID not found! Please log in again.");
-            navigate("/login"); // Redirect to login if userId is missing
+            navigate("/login"); 
             return;
         }
 
         const productData = {
-            title: data.productName, // Match schema title field
+            title: data.productName, 
             description: data.description,
             price: data.price,
             whatsapp: data.whatsapp,
             email: data.email,
             category: data.category,
-            image: data.productImage.length > 0 ? data.productImage[0] : "", // ✅ Ensure correct key name
+            image: data.productImage.length > 0 ? data.productImage[0] : "", 
             userId: userId,
         };
 
@@ -155,10 +172,10 @@ const Sell = () => {
 
                 toast.success(response.data.message);
 
-                // ✅ Update product list immediately
+                
                 setProducts((prevProducts) => [...prevProducts, response.data.data]);
 
-                // ✅ Reset the form
+               
                 setData({
                     productName: "",
                     description: "",
@@ -182,7 +199,7 @@ const Sell = () => {
 
     return (
         <div>
-            {/* ✅ Navigation Bar */}
+            {/*  Navigation Bar */}
             <nav className="seller-navbar">
                 <div className="back-arrow" onClick={() => navigate(-1)}>
                     <FaArrowLeft size={22} />
@@ -201,13 +218,32 @@ const Sell = () => {
             </nav>
 
 
-            {/* ✅ Display Uploaded Products in Real-Time */}
+            {/* Display Uploaded Products in Real-Time */}
             <div className="list-product-container">
                 <h2 className="section-title">Your listed Product</h2>
                 <div className="product-list">
                     {products.length > 0 ? (
                         products.map((product) => (
                             <div key={product._id} className="product-card">
+                            <button 
+                                    className="delete-button" 
+                                    onClick={() => handleDelete(product._id)}
+                                    style={{
+                                        position: "absolute",
+                                        top: "5px",
+                                        right: "5px",
+                                        background: "red",
+                                        color: "white",
+                                        border: "none",
+                                        borderRadius: "50%",
+                                        width: "25px",
+                                        height: "25px",
+                                        cursor: "pointer",
+                                        fontWeight: "bold",
+                                    }}
+                                >
+                                    ✖
+                                </button>
                                 <img src={product.image} alt={product.title} className="product-image" />
                                 <h3>{product.title}</h3>
                                 <p><strong>Price:</strong> ₹{product.price}</p>
@@ -220,11 +256,11 @@ const Sell = () => {
             </div>
 
 
-            {/* ✅ Section to List New Product */}
+            {/* Section to List New Product */}
             <div className="list-product-container">
                 <h2 className="section-title">List New Product</h2>
                 <div className="list-product-content">
-                    {/* ✅ Categories Selection */}
+                    {/* Categories Selection */}
                     <div className="category-section">
                         {categories.map((category) => (
                             <div
@@ -239,7 +275,7 @@ const Sell = () => {
                         ))}
                     </div>
 
-                    {/* ✅ Product Form */}
+                    {/* Product Form */}
                     <div className={`product-form ${data.category ? "show-form" : ""}`}>
                         {data.category && (
                             <div className="form-content">
@@ -280,7 +316,7 @@ const Sell = () => {
                                     onChange={handleOnChange}
                                 />
 
-                                {/* ✅ File Upload (Supports Multiple Images) */}
+                                {/* File Upload (Supports Multiple Images) */}
                                 <label className="upload-box">
                                     <input type="file" className="hidden" multiple onChange={handleImageUpload} />
                                     <div className="upload-placeholder">
@@ -289,7 +325,7 @@ const Sell = () => {
                                     </div>
                                 </label>
 
-                                {/* ✅ Image Previews */}
+                                {/* Image Previews */}
                                 <div className="image-preview-container">
                                     {data.productImage.map((img, index) => (
                                         <div key={index} className="preview-wrapper">
@@ -307,7 +343,7 @@ const Sell = () => {
                     </div>
                 </div>
             </div>
-            {/* ✅ Footer */}
+            {/* Footer */}
             <Footer />
         </div>
     );
