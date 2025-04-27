@@ -9,6 +9,8 @@ const Navbar = ({ scrollToAbout }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [menuOpen, setMenuOpen] = useState(false); // NEW
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -65,6 +67,13 @@ const Navbar = ({ scrollToAbout }) => {
         <h1>Engimart</h1>
       </div>
 
+      {/* Hamburger Icon */}
+      <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+      </div>
+
       {/* Center Section - Search Box */}
       <div className="navbar-center">
         <input
@@ -91,7 +100,7 @@ const Navbar = ({ scrollToAbout }) => {
       </div>
 
       {/* Right Section - Sell, Login, About */}
-      <div className="navbar-right">
+      <div className={`navbar-right ${menuOpen ? "open" : ""}`}>
         <Link to="/sell" className="sell-btn" style={{ textDecoration: "none" }}>
           Sell +
         </Link>

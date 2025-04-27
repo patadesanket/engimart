@@ -1,11 +1,14 @@
+/* Navbar.css */
+
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background-color: #2d3864; /* Dark blue background */
-  padding: 10px 30px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  font-family: 'Poppins', sans-serif;
+  justify-content: space-between;
+  background-color: #2d3864;
+  color: rgb(255, 255, 255);
+  padding: 15px 20px;
+  position: relative;
+  z-index: 100;
 }
 
 /* Left Section - Engimart Title */
@@ -18,34 +21,43 @@
 
 /* Center Section - Search Box */
 .navbar-center {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
+  flex: 1;
+  margin-left:80px; 
+  position: relative;
 }
 
 .search-box {
-  width: 50%;
+  /* width: 90%;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none; */
+  width: 80%;
   max-width: 500px;
-  padding: 11px 25px;
+  padding: 15px 25px;
   border: 1px solid #ccc;
   background-color: #B4DFE5;
   border-radius: 15px;
   outline: none;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-left: 15px;
 }
+
+/* Search Dropdown */
 .search-dropdown {
   position: absolute;
-  top: 60px; /* Adjust based on your navbar height */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 300px;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  top: 50px;
+  left: 0;
+  width: 80%;
+  background: rgba(255, 255, 255, 0.363);
+  backdrop-filter: blur(5px);
+  color: black;
+  border-radius: 0 0 10px 10px;
   max-height: 300px;
   overflow-y: auto;
-  z-index: 100;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 10;
+  border-radius: 5px;
 }
 
 .search-item {
@@ -53,11 +65,10 @@
   align-items: center;
   padding: 10px;
   cursor: pointer;
-  transition: background 0.3s;
 }
 
 .search-item:hover {
-  background: #f0f0f0;
+  background-color: #F4976C;
 }
 
 .search-item-img {
@@ -69,18 +80,18 @@
 }
 
 .search-item-title {
-  font-size: 14px;
-  color: #333;
+  font-size: 16px;
 }
 
 /* Right Section - Sell, Login, About */
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
 }
 
-.sell-btn, .login-btn {
+/* Buttons */
+.sell-btn, .login-btn{
   padding: 10px 20px;
   border: none;
   border-radius: 25px;
@@ -90,6 +101,9 @@
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s, transform 0.2s;
+  margin-right: 25px;
+  width:auto;
+
 }
 
 .sell-btn:hover {
@@ -101,8 +115,6 @@
   background-color: #F4976C;
   transform: scale(1.05);
 }
-
-/* About Link */
 .about-link-btn {
   background: transparent;
   color: white; /* or light gray to match your theme */
@@ -120,94 +132,112 @@
   
 }
 
-
 /* User Menu */
 .user-menu {
   position: relative;
   cursor: pointer;
-  font-weight: bold;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 20px;
-  background-color: #007bff;
-  transition: background 0.3s ease;
 }
 
-.user-menu:hover {
-  background-color: #0056b3;
+.username {
+  font-weight: bold;
 }
 
 .dropdown {
-  position: absolute;
-  top: 110%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: white;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
-  width: 120px;
-  text-align: center;
-  padding: 5px 0;
-  z-index: 100;
   display: none;
+  position: absolute;
+  top: 35px;
+  right: 0;
+  background: white;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
+  min-width: 100px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .dropdown.active {
   display: block;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .search-box {
-    width: 250px;
-  }
-
-  .sell-btn, .login-btn {
-    padding: 8px 15px;
-  }
+.logout-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
 }
 
+.logout-btn:hover {
+  color: #ff6600;
+}
+
+/* Hamburger Menu */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  width: 25px;
+  height: 20px;
+  justify-content: space-between;
+}
+
+.bar {
+  height: 3px;
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+}
+
+/* Mobile View */
 @media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px 20px;
-  }
-
-  .navbar-left, .navbar-center, .navbar-right {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-
   .navbar-center {
-    justify-content: center;
+    display: none;
   }
 
-  .search-box {
+  .hamburger {
+    display: flex;
+  }
+
+  .navbar-right {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px; /* below navbar */
+    right: 20px;
+    background-color: #2d3864; /* match navbar */
+    border-radius: 12px;
+    padding: 10px;
+    width: 180px; /* slightly wider for padding */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    gap: 10px; /* space between buttons */
+    z-index: 1000;
+  }
+
+  .navbar-right.open {
+    position: absolute;
+    top: 70px; /* adjust based on your navbar height */
+    right: 20px;
+    background-color: #2b3467;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px; /* NEW: Fix width */
+    z-index: 1000;
+  }
+  
+
+  .sell-btn, .login-btn {
+    width: 80%;
+    margin-right: 0; /* remove right margin in mobile */
+    text-align: center;
+  }
+
+  .about-link-btn {
     width: 100%;
-    margin-bottom: 10px;
-  }
-
-  .sell-btn, .login-btn {
-    width: 48%;
+    margin-top: 5px;
   }
 }
-
-@media (max-width: 480px) {
-  .navbar-left h1 {
-    font-size: 22px;
-  }
-
-  .sell-btn, .login-btn {
-    padding: 8px;
-    font-size: 14px;
-  }
-
-  .about-link {
-    font-size: 14px;
-  }
-}
-
-
