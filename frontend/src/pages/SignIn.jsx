@@ -17,7 +17,7 @@ const SignIn = () => {
         try {
             const token = localStorage.getItem("token");
 
-            
+
 
             if (token) {
                 navigate("/"); // Redirect to home page if already logged in
@@ -45,6 +45,10 @@ const SignIn = () => {
 
             console.log("API Response:", response.data);
 
+            console.log("User object from response:", response.data.user);
+            console.log("User Name from response:", response.data.user?.name);
+
+
             if (response.data.success) {
                 toast.success("Login Successful!", { position: "top-right", autoClose: 2000 });
 
@@ -55,7 +59,11 @@ const SignIn = () => {
                 localStorage.setItem("token", response.data.token);
                 localStorage.setItem("userId", response.data.user.id); // ✅ Now storing `userId`
                 localStorage.setItem("user", JSON.stringify(response.data.user));
+                localStorage.setItem("userName", response.data.user.name);
 
+
+                const savedUserName = localStorage.getItem("userName");
+                console.log("Saved userName in localStorage:", savedUserName);
 
                 console.log("Stored User ID:", response.data.user.id);
                 console.log("Stored Token:", response.data.token);

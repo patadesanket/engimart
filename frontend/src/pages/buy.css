@@ -1,6 +1,6 @@
 /* Buy Page Styling */
 .buying-page {
-    width: full;
+    width: 100%;
     margin: auto;
     padding: 20px;
     font-family: "Poppins", sans-serif;
@@ -128,11 +128,6 @@
     justify-content: center;
 }
 
-.contact-section a:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-}
-
 /* WhatsApp & Email Buttons */
 .whatsapp-btn {
     background-color: #25D366;
@@ -153,6 +148,19 @@
 
 .email-btn:hover {
     background-color: #0056b3;
+}
+
+/* Login Reminder */
+.login-reminder {
+    margin-top: 10px;
+    color: #ff4d4d;
+    font-weight: 500;
+}
+
+.login-link {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 /* Footer Styling */

@@ -9,32 +9,54 @@ const Buy = () => {
     const location = useLocation();
     const [productData, setProductData] = useState(null);
     const [mainImage, setMainImage] = useState("");
+    const [userName, setUserName] = useState("");
+    const [whatsappLink, setWhatsappLink] = useState("");
+    const [isLoggedIn, setIsLoggedIn] = useState(false);  // ✅ New state to check login
 
-    // Fetch product details from location.state
     useEffect(() => {
         if (!location.state?.product) {
-            navigate("/"); // Redirect to Home if no product is found
+            navigate("/");
         } else {
             setProductData(location.state.product);
-            setMainImage(location.state.product.image?.[0] || ""); // Handle undefined image array
+            setMainImage(location.state.product.image?.[0] || "");
         }
     }, [location.state, navigate]);
 
-    // If data is missing, show loading
+    useEffect(() => {
+        const storedName = localStorage.getItem("userName");
+        const token = localStorage.getItem("token"); // ✅ Checking if token exists
+        console.log("Fetched userName from localStorage:", storedName);
+
+        setUserName(storedName || "a potential buyer");
+        setIsLoggedIn(!!token); // ✅ If token exists, set login status to true
+    }, []);
+
+    useEffect(() => {
+        if (productData && userName) {
+            const message = `Hello 👋, I am ${userName}.\n\n` +
+                `I'm interested in your product:\n\n` +
+                `🛒 Product Name: ${productData.title}\n` +
+                `📝 Description: ${productData.description}\n` +
+                `💵 Price: ₹${productData.price}\n\n` +
+                `Could you please provide more details?\n\nThank you! 🙏`;
+
+            if (productData.whatsapp) {
+                setWhatsappLink(`https://wa.me/${productData.whatsapp}?text=${encodeURIComponent(message)}`);
+            }
+        }
+    }, [productData, userName]);
+
     if (!productData) {
         return <h1>Loading...</h1>;
     }
 
     return (
         <div className="buying-page">
-            {/* Back Navigation */}
             <div className="back-nav" onClick={() => navigate(-1)}>
                 <FaArrowLeft /> <span>Explore more products</span>
             </div>
 
-            {/* Product Display Section */}
             <div className="product-container">
-                {/* Image Column */}
                 <div className="image-column">
                     {productData.image?.map((img, index) => (
                         <img
@@ -47,12 +69,10 @@ const Buy = () => {
                     ))}
                 </div>
 
-                {/* Main Product Image */}
                 <div className="main-image">
                     <img src={mainImage} alt="Product" />
                 </div>
 
-                {/* Product Details */}
                 <div className="product-details">
                     <h2>{productData.title}</h2>
                     <p className="description">{productData.description}</p>
@@ -62,35 +82,39 @@ const Buy = () => {
                     <div className="contact-section">
                         <p>Contact Seller:</p>
 
-                        {productData.whatsapp && (
-                            <a
-                                href={`https://wa.me/${productData.whatsapp}?text=${encodeURIComponent(
-                                    `Hello, I am ${localStorage.getItem("userName") || "a potential buyer"}.\n\n` +
-                                    `I'm interested in your product:\n🔹 Product Name: ${productData.title}\n` +
-                                    `🔹 Description: ${productData.description}\n🔹 Price: ${productData.price}\n\n` +
-                                    `Please let me know more details.`
-                                )}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="whatsapp-btn"
-                            >
-                                <FaWhatsapp /> Chat on WhatsApp
-                            </a>
-                        )}
+                        {isLoggedIn ? (
+                            <>
+                                {/* WhatsApp Button */}
+                                {whatsappLink && (
+                                    <a
+                                        href={whatsappLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="whatsapp-btn"
+                                    >
+                                        <FaWhatsapp /> Chat on WhatsApp
+                                    </a>
+                                )}
 
-                        {productData.email && (
-                            <a
-                                href={`mailto:${productData.email}?subject=Interested%20in%20your%20product&body=${encodeURIComponent(
-                                    `Hello,\n\nI am interested in your product:\n\n` +
-                                    `🔹 Product Name: ${productData.title}\n` +
-                                    `🔹 Description: ${productData.description}\n` +
-                                    `🔹 Price: ₹${productData.price}\n\n` +
-                                    `Please provide more details.\n\nThank you!`
-                                )}`}
-                                className="email-btn"
-                            >
-                                <FaEnvelope /> Contact via Email
-                            </a>
+                                {/* Email Button */}
+                                {productData.email && (
+                                    <a
+                                        href={`mailto:${productData.email}?subject=Interest%20in%20your%20product&body=${encodeURIComponent(
+                                            `Hello,\n\nI hope you are doing well!\n\n` +
+                                            `I am interested in purchasing your product:\n\n` +
+                                            `🛒 Product Name: ${productData.title}\n` +
+                                            `📝 Description: ${productData.description}\n` +
+                                            `💵 Price: ₹${productData.price}\n\n` +
+                                            `Please let me know the next steps.\n\nThank you!`
+                                        )}`}
+                                        className="email-btn"
+                                    >
+                                        <FaEnvelope /> Contact via Email
+                                    </a>
+                                )}
+                            </>
+                        ) : (
+                            <p className="login-reminder">Please <span onClick={() => navigate('/sign-in')} className="login-link">log in</span> to contact the seller.</p>
                         )}
                     </div>
                 </div>
