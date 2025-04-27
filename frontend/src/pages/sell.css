@@ -282,6 +282,7 @@
 /* 🌟 Input Fields */
 .form-content input {
     width: 90%;
+    margin-left:10px;
     padding: 12px;
     border: 1px solid #f4976c; /* Light blue */
     border-radius: 5px;
@@ -306,6 +307,7 @@
     background: #fbe8a6; /* Soft yellow */
     color: #303c6c; /* Dark navy blue */
     transition: background 0.3s ease-in-out;
+    width: 90%;
 }
 
 .upload-box input[type="file"] {

@@ -4,15 +4,15 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f4f4f4;
+    background: linear-gradient(to right, #a855f7, #6366f1);
 }
-
+ 
 /* Styling for the SignUp card */
 .signup-card {
     background: #fff;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 14px 20px linear-gradient(to right, #a855f7, #6366f1);
     width: 350px;
     text-align: center;
 }

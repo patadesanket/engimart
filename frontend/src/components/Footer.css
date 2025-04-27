@@ -10,7 +10,10 @@
     align-items: flex-start;  /* Keep everything aligned at the top */
     flex-wrap: wrap;
   }
-  
+  .footer-left{
+    margin-left:5%;
+    margin-right: 5%;
+  }
   /* Change links to horizontal */
   .footer-left ul {
     list-style: none;
@@ -43,7 +46,8 @@
   
   .footer-right {
     width: 40%;  
-    margin-right: 20px;             /* Increase width of the contact form */
+    margin-right: 10%;
+    margin-left: 10%;             /* Increase width of the contact form */
   }
   
   .footer-right form {
@@ -57,7 +61,7 @@
     padding: 12px;
     border: none;
     border-radius: 5px;
-    background-color: #B4DFE5;
+    background-color: #b4dfe5;
     width: 100%;              /* Ensure form elements fill the right side */
   }
   
@@ -70,7 +74,7 @@
     cursor: pointer;
     transition: 0.5s ease-in-out;
     width: 100px;
-    margin-left: 400px;
+    margin-left: 215px;
 
   }
 
