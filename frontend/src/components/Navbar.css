@@ -33,6 +33,45 @@
   outline: none;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+.search-dropdown {
+  position: absolute;
+  top: 60px; /* Adjust based on your navbar height */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.search-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.search-item:hover {
+  background: #f0f0f0;
+}
+
+.search-item-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.search-item-title {
+  font-size: 14px;
+  color: #333;
+}
 
 /* Right Section - Sell, Login, About */
 .navbar-right {
@@ -64,17 +103,23 @@
 }
 
 /* About Link */
-.about-link {
-  text-decoration: none;
-  color: #F4976C;
-  font-weight: 500;
-  transition: color 0.3s;
-  padding: 10px;
+.about-link-btn {
+  background: transparent;
+  color: white; /* or light gray to match your theme */
+  border: 1px solid rgba(255, 255, 255, 0);
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  font-size: 16px;
 }
 
-.about-link:hover {
-  color: #B4DFE5;
+.about-link-btn:hover {
+  background-color: #F4976C; /* Darker blue (match your theme) */
+  color: #000000;
+  
 }
+
 
 /* User Menu */
 .user-menu {

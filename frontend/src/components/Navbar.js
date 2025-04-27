@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const Navbar = () => {
+const Navbar = ({ scrollToAbout }) => {
   const [user, setUser] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -12,6 +16,18 @@ const Navbar = () => {
     if (storedUser) {
       setUser(storedUser);
     }
+  }, []);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:5050/api/products");
+        setProducts(response.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    fetchProducts();
   }, []);
 
   const handleLogout = () => {
@@ -22,11 +38,26 @@ const Navbar = () => {
     window.location.reload();
   };
 
-  const scrollToAbout = (event) => {
-    event.preventDefault();
-    document.getElementById("about-section").scrollIntoView({ behavior: "smooth" });
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    if (query.trim() === "") {
+      setFilteredProducts([]);
+    } else {
+      const filtered = products.filter((product) =>
+        product.title.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    }
   };
-  
+
+  const handleProductClick = (product) => {
+    navigate("/buy", { state: { product } });
+    setSearchQuery("");
+    setFilteredProducts([]);
+  };
+
   return (
     <nav className="navbar">
       {/* Left Section - Engimart Title */}
@@ -40,7 +71,23 @@ const Navbar = () => {
           type="text"
           placeholder="Search products..."
           className="search-box"
+          value={searchQuery}
+          onChange={handleSearchChange}
         />
+        {searchQuery && filteredProducts.length > 0 && (
+          <div className="search-dropdown">
+            {filteredProducts.map((product) => (
+              <div
+                key={product._id}
+                className="search-item"
+                onClick={() => handleProductClick(product)}
+              >
+                <img src={product.image[0]} alt={product.title} className="search-item-img" />
+                <span className="search-item-title">{product.title}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Right Section - Sell, Login, About */}
@@ -64,7 +111,9 @@ const Navbar = () => {
           </Link>
         )}
 
-        <a href="#about" className="about-link">About</a>
+        <button onClick={scrollToAbout} className="about-link-btn">
+          About
+        </button>
       </div>
     </nav>
   );

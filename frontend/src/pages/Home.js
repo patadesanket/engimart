@@ -1,45 +1,59 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./Home.css";
 import Footer from "../components/Footer";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import About from "../components/About";
+import Navbar from "../components/Navbar"; // <== Add Navbar import here
 import { Link } from "react-router-dom";
 import '@google/model-viewer';
-
 
 const Home = () => {
   const words = ["Products", "Tools", "Aprons", "Stationary"];
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [products, setProducts] = useState([]); // State to store products
+  const [products, setProducts] = useState([]);
   const [modelIndex, setModelIndex] = useState(0);
+
+  const aboutRef = useRef(null); // <== Create a reference for About section
+
   const models = [
     {
       title: "CASIO Advanced Calculator",
       description: "A detailed 3D model of a Casio Advanced Calculator.",
-      fileName: "casio_calculator.glb", // Updated to GLB file
+      fileName: "casio_calculator.glb",
     },
     {
       title: "Arduino Uno R3, Elegoo",
       description: "A 3D model of an Arduino Uno R3 microcontroller.",
-      fileName: "arduino_uno.glb", // Updated to GLB file
+      fileName: "arduino_uno.glb",
+    },
+    {
+      title: "Digital MultiMeter",
+      description: "A 3D model of an Digital Multimeter.",
+      fileName: "multimeter.glb",
+    },
+    {
+      title: "Workshop chisels",
+      description: "Different types of chisels used in carpentary",
+      fileName: "chisels.glb",
+    },
+    {
+      title: "Electric Components",
+      description: "Breadboard and other components used in electrical and IOT projects",
+      fileName: "breadboard.glb",
     },
   ];
-  
 
-
-  // Fetch products from the backend
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:5050/api/products"); // Replace with your actual backend URL
+        const response = await axios.get("http://localhost:5050/api/products");
         const sortedProducts = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setProducts(sortedProducts);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     };
-
     fetchProducts();
   }, []);
 
@@ -58,8 +72,15 @@ const Home = () => {
     setModelIndex((prevIndex) => (prevIndex - 1 + models.length) % models.length);
   };
 
+  const scrollToAbout = () => {
+    aboutRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div>
+      {/* Navbar */}
+      <Navbar scrollToAbout={scrollToAbout} />
+
       {/* Hero Section */}
       <div className="hero-section">
         <div className="tagline">
@@ -78,14 +99,28 @@ const Home = () => {
           </button>
 
           <div className="model-card">
-            <model-viewer
+            {/* <model-viewer
               src={`/models/${models[modelIndex].fileName}`}
               alt={models[modelIndex].title}
               auto-rotate
               camera-controls
               autoplay
               shadow-intensity="1"
-            ></model-viewer>
+            ></model-viewer> */}
+
+<model-viewer
+  src={`/models/${models[modelIndex].fileName}`}
+  alt={models[modelIndex].title}
+  auto-rotate
+  camera-controls
+  autoplay
+  shadow-intensity="1"
+  exposure="1"
+  style={{ objectFit: "contain" }}
+  reveal="auto"
+  loading="eager"
+></model-viewer>
+
 
             <div className="model-info">
               <h2>{models[modelIndex].title}</h2>
@@ -125,7 +160,11 @@ const Home = () => {
         </div>
       </section>
 
-      <About />
+      {/* About Section */}
+      <div ref={aboutRef}>
+        <About />
+      </div>
+
       <Footer />
     </div>
   );
