@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 .seller-navbar {
     display: flex;
     align-items: center;
@@ -398,5 +402,108 @@
     }
     .input-field {
         padding: 10px;
+    }
+}
+
+
+/* responsive edit made on 30 april  */
+
+/* Tablet View (max-width: 1024px) */
+@media (max-width: 1024px) {
+    .list-product-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .category-section {
+        width: 100%;
+    }
+
+    .product-form {
+        max-width: 100%;
+    }
+
+    .product-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .section-title {
+        font-size: 32px;
+        text-align: center;
+    }
+}
+
+/* Mobile View (max-width: 600px) */
+@media (max-width: 600px) {
+    .seller-navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .navbar-title {
+        text-align: left;
+        font-size: 18px;
+    }
+
+    .profile-section {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .listed-products {
+        width: 95%;
+        margin: 20px auto;
+    }
+
+    .product-list {
+        grid-template-columns: repeat(1, 1fr);
+        padding: 10px;
+    }
+
+    .product-card img {
+        height: 120px;
+    }
+
+    .section-title {
+        font-size: 26px;
+        text-align: center;
+    }
+
+    .product-info h3,
+    .product-info p {
+        font-size: 14px;
+    }
+
+    .edit-btn,
+    .delete-btn {
+        font-size: 12px;
+        padding: 6px 12px;
+        width: 75px;
+    }
+
+    .form-content input,
+    .upload-box {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .upload-box {
+        padding: 15px;
+    }
+
+    .submit-btn {
+        font-size: 16px;
+    }
+
+    .preview-image {
+        width: 60px;
+        height: 60px;
+    }
+
+    .list-product-container {
+        margin: 20px 10px;
+        padding: 15px;
     }
 }

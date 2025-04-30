@@ -1,92 +1,145 @@
 .footer {
-    background-color: #27315a;
-    color: #f15c17;
-    padding: 30px 20px; /* Reduced padding to reduce height */
-  }
-  
+  background-color: #27315a;
+  color: #f15c17;
+  padding: 30px 20px;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+/* Left Section */
+.footer-left {
+  margin-left: 5%;
+  margin-right: 5%;
+  flex: 1 1 300px;
+}
+
+.footer-left ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.footer-left ul li a {
+  color: #f05c17;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.footer-left ul li a:hover {
+  color: #28a745;
+}
+
+.social-icons {
+  margin-top: 20px;
+}
+
+.social-icons a {
+  color: #f56b2c;
+  margin-right: 15px;
+  font-size: 20px;
+}
+
+/* Right Section (Form) */
+.footer-right {
+  flex: 1 1 350px;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.footer-right form {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-right input,
+.footer-right textarea {
+  margin-bottom: 15px;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #b4dfe5;
+  width: 100%;
+}
+
+.footer-right button {
+  padding: 12px;
+  background-color: #B4DFE5;
+  color: #000000;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: fit-content;
+  align-self: flex-end;
+}
+
+.footer-right button:hover {
+  background-color: #f56b2c;
+}
+
+/* Bottom Section */
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  border-top: 1px solid #444;
+  padding-top: 15px;
+  font-size: 14px;
+}
+
+/* ✅ Responsive Breakpoints */
+@media (max-width: 768px) {
   .footer-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;  /* Keep everything aligned at the top */
-    flex-wrap: wrap;
-  }
-  .footer-left{
-    margin-left:5%;
-    margin-right: 5%;
-  }
-  /* Change links to horizontal */
-  .footer-left ul {
-    list-style: none;
-    padding: 0;
-    display: flex;            /* Make links horizontal */
-    gap: 40px;                /* Space between links */
-  }
-  
-  .footer-left ul li {
-    margin-bottom: 0;         /* Remove bottom margin for horizontal */
-  }
-  
-  .footer-left ul li a {
-    color: #f05c17;
-    text-decoration: none;
-    font-size: 16px;
-  }
-  .footer-left ul li a :hover{
-    color: #28a745;
-  }
-  .social-icons {
-    margin-top: 20px;
-  }
-  
-  .social-icons a {
-    color: #f56b2c;
-    margin-right: 15px;
-    font-size: 20px;
-  }
-  
-  .footer-right {
-    width: 40%;  
-    margin-right: 10%;
-    margin-left: 10%;             /* Increase width of the contact form */
-  }
-  
-  .footer-right form {
-    display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
-  
+
+  .footer-left,
+  .footer-right {
+    margin: 0;
+    width: 100%;
+  }
+
+  .footer-left ul {
+    justify-content: center;
+  }
+
+  .footer-right button {
+    align-self: center;
+    margin-left: 0;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-left ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-left ul li {
+    margin-bottom: 5px;
+  }
+
   .footer-right input,
   .footer-right textarea {
-    margin-bottom: 15px;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    background-color: #b4dfe5;
-    width: 100%;              /* Ensure form elements fill the right side */
-  }
-  
-  .footer-right button {
-    padding: 12px;
-    background-color: #B4DFE5;
-    color: #000000;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: 0.5s ease-in-out;
-    width: 100px;
-    margin-left: 215px;
-
-  }
-
-  .footer-right button:hover{
-    background-color: #f56b2c;
-  }
-  
-  .footer-bottom {
-    text-align: center;
-    margin-top: 20px;         /* Slightly reduced margin */
-    border-top: 1px solid #444;
-    padding-top: 15px;
     font-size: 14px;
   }
-  
+
+  .footer-right button {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+}

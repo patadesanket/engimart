@@ -257,5 +257,127 @@ model-viewer::part(progress-bar) {
     background-color: #E06A4E;
   }
   
+/* ------------------ RESPONSIVE DESIGN ------------------ */
+@media (max-width: 1024px) {
+  .hero-section {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px 15px;
+  }
+
+  .tagline {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .product-showcase {
+    width: 100%;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .producth-card {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .producth-image,
+  .producth-info {
+    width: 100%;
+    text-align: center;
+  }
+
+  .producth-image {
+    height: auto;
+    max-height: 300px;
+  }
+
+  .model-showcase {
+    flex-direction: column;
+  }
+
+  .model-card {
+    width: 90%;
+    margin: 0 auto;
+    height: auto;
+  }
+
+  model-viewer {
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .tagline h1 {
+    font-size: 2rem;
+  }
+
+  .engimart {
+    font-size: 2.2rem;
+  }
+
+  .model-info h2 {
+    font-size: 1.2rem;
+  }
+
+  .animated-text {
+    font-size: 1.2rem;
+  }
+
+  .producth-info h2 {
+    font-size: 1.4rem;
+  }
+
+  .producth-info p {
+    font-size: 0.95rem;
+  }
+
+  .buy-now {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+  }
+
+  .product-img {
+    height: 180px;
+  }
+
+  .section-title {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .product-card {
+    max-width: 90%;
+    margin: 0 auto;
+  }
+
+  .tagline h1 {
+    font-size: 1.8rem;
+  }
+
+  .animated-text span {
+    font-size: 1.2rem;
+  }
+
+  .model-card {
+    padding: 0;
+  }
+
+  model-viewer {
+    height: 250px;
+  }
+
+  .arrow-btn {
+    font-size: 1.2rem;
+    padding: 5px;
+  }
+}
 
   
