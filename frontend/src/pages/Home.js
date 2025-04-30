@@ -85,7 +85,7 @@ const Home = () => {
       <div className="hero-section">
         <div className="tagline">
           <h1>
-            <span className="engimart">Engimart</span>
+            <span className="engimart">EngiMart</span>
             <br />
             <br />
             Discover the Best <span className="animated-text">{words[currentWordIndex]}</span>

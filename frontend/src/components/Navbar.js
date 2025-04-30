@@ -64,7 +64,7 @@ const Navbar = ({ scrollToAbout }) => {
     <nav className="navbar">
       {/* Left Section - Engimart Title */}
       <div className="navbar-left">
-        <h1>Engimart</h1>
+        <h1>EngiMart</h1>
       </div>
 
       {/* Hamburger Icon */}

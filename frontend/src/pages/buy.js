@@ -114,7 +114,7 @@ const Buy = () => {
                                 )}
                             </>
                         ) : (
-                            <p className="login-reminder">Please <span onClick={() => navigate('/sign-in')} className="login-link">log in</span> to contact the seller.</p>
+                            <p className="login-reminder">Please <span onClick={() => navigate('/login')} className="login-link">log in</span> to contact the seller.</p>
                         )}
                     </div>
                 </div>
