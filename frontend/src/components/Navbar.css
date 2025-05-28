@@ -208,9 +208,9 @@
   .navbar-right {
     display: none;
     flex-direction: column;
-    position: absolute;  /* 👈 Absolute to make it independent of navbar */
-    top: 100%;           /* 👈 Place below navbar */
-    right: 0;            /* 👈 Align to the right */
+    position: absolute;  
+    top: 100%;           
+    right: 0;            
     background-color: #2d3864;
     padding: 10px 15px;
     border-radius: 0 0 10px 10px;
