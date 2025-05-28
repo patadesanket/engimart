@@ -1,56 +1,58 @@
-/* Navbar */
+/* Navbar.css */
+
 .navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: #2d3864;
-  color: #fff;
+  color: white;
   padding: 15px 20px;
   position: relative;
   z-index: 100;
+  flex-wrap: wrap;
 }
 
-/* Left Section */
+/* Left Section - Logo */
 .navbar-left h1 {
-  font-size: 32px;
+  font-size: 28px;
   color: #F4976C;
   font-weight: 700;
   margin: 0;
 }
 
-/* Center Section */
+/* Center Section - Search */
 .navbar-center {
   flex: 1;
-  margin-left: 80px;
-  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
 }
 
 .search-box {
   width: 80%;
   max-width: 500px;
-  padding: 15px 25px;
+  padding: 12px 20px;
   border: 1px solid #ccc;
   background-color: #B4DFE5;
   border-radius: 15px;
   outline: none;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin-left: 15px;
-  box-sizing: border-box;
 }
 
 /* Search Dropdown */
 .search-dropdown {
   position: absolute;
-  top: 50px;
-  left: 0;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 80%;
-  max-height: 300px;
-  background: rgba(255, 255, 255, 0.363);
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(5px);
   color: black;
   border-radius: 5px;
+  max-height: 300px;
   overflow-y: auto;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 10;
 }
 
@@ -77,13 +79,14 @@
   font-size: 16px;
 }
 
-/* Right Section */
+/* Right Section - Buttons */
 .navbar-right {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
+/* Buttons */
 .sell-btn, .login-btn {
   padding: 10px 20px;
   border: none;
@@ -94,7 +97,6 @@
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s, transform 0.2s;
-  margin-right: 25px;
 }
 
 .sell-btn:hover,
@@ -116,7 +118,7 @@
 
 .about-link-btn:hover {
   background-color: #F4976C;
-  color: #000;
+  color: black;
 }
 
 /* User Menu */
@@ -139,7 +141,7 @@
   padding: 10px;
   border-radius: 5px;
   min-width: 100px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .dropdown.active {
@@ -159,14 +161,15 @@
   color: #ff6600;
 }
 
-/* Hamburger */
+/* Hamburger Menu */
 .hamburger {
   display: none;
   flex-direction: column;
-  justify-content: space-between;
+  cursor: pointer;
   width: 25px;
   height: 20px;
-  cursor: pointer;
+  justify-content: space-between;
+  margin-left: 10px;
 }
 
 .bar {
@@ -176,60 +179,59 @@
   border-radius: 5px;
 }
 
-/* Responsive */
+/* Media Queries - Mobile View */
 @media (max-width: 768px) {
-  .navbar-center {
-    width: 100%;
-    margin: 10px auto 0 auto;
-    padding: 0 15px;
+  .navbar-left {
+    flex: 0 0 auto;
   }
 
-  .search-box {
-    width: 100%;
-    margin-left: 0;
-    margin-top: 10px;
-    padding: 12px 20px;
+  .navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%; /* Adjust width as needed */
+    max-width: 250px;
   }
 
   .hamburger {
     display: flex;
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+
+  .search-box {
+    width: 60%;
+    padding: 10px 15px;
+    margin-left: 80px;
   }
 
   .navbar-right {
     display: none;
     flex-direction: column;
-    position: absolute;
-    top: 60px;
-    right: 20px;
+    position: absolute;  /* 👈 Absolute to make it independent of navbar */
+    top: 100%;           /* 👈 Place below navbar */
+    right: 0;            /* 👈 Align to the right */
     background-color: #2d3864;
-    border-radius: 12px;
-    padding: 10px;
-    width: 180px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px 15px;
+    border-radius: 0 0 10px 10px;
     gap: 10px;
-    z-index: 1000;
+    width: 200px;        /* 👈 Set a fixed width for the dropdown */
+    z-index: 99;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   }
 
   .navbar-right.open {
     display: flex;
-    top: 70px;
-    right: 20px;
-    background-color: #2b3467;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    align-items: center;
-    width: 200px;
   }
 
-  .sell-btn, .login-btn {
-    width: 80%;
-    margin-right: 0;
-    text-align: center;
-  }
-
+  .sell-btn,
+  .login-btn,
   .about-link-btn {
-    width: 100%;
-    margin-top: 5px;
+    width: 70%;
+    text-align: center;
+    padding: 5px;
   }
+
+  
 }
+
