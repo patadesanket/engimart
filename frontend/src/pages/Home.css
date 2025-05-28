@@ -287,17 +287,26 @@ model-viewer::part(progress-bar) {
   }
 
   .model-showcase {
-    flex-direction: column;
+    display: flex;
+    flex-direction: row; /* change from column to row */
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
   }
 
   .model-card {
-    width: 90%;
+    width: 80%;
     margin: 0 auto;
-    height: auto;
+    /* height: auto; */
   }
-
+  .arrow-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
   model-viewer {
-    height: 300px;
+    height: 250px;
   }
 }
 
