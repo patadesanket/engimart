@@ -1,263 +1,257 @@
+/* Base Styles */
 body {
-    margin: 0;
-    /* background: linear-gradient(to right, #c8daec, #b8c6f3); */
-    background-color: #FBE8A6;
-    padding: 0px;
-    min-height: 100vh;
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  .hero-section {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 0 5px;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .model-showcase {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 30px;
-  }
-  .model-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: transparent;
-    padding: 10px;
-    margin-right: 60px;
-    border-radius: 10px;
-    width: 100%;
-    max-width: 700px; /* adjust if needed */
-    height: 500px; /* fixed height */
-  }
-  
-  model-viewer {
-    width: 100%;
-    height: 400px; /* fixed height inside */
-    object-fit: contain; /* Important for 3D models to fit nicely */
-    background-color: #f5f5f500; /* optional: light background for visibility */
-    border-radius: 0px;
-  }
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background-color: #FBE8A6;
+}
 
-  /* Home.css or your main CSS file */
+/* Hero Section */
+.hero-section {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 5px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Tagline */
+.tagline {
+  width: 35%;
+}
+
+.tagline h1 {
+  font-size: 2.5rem;
+  color: #080738;
+}
+
+/* Animated Text */
+.animated-text {
+  color: #f56b2c;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.animated-text span {
+  display: block;
+  animation: animateWords 8s linear infinite;
+}
+
+@keyframes animateWords {
+  0%, 20% { transform: translateY(0%); }
+  25%, 45% { transform: translateY(-100%); }
+  50%, 70% { transform: translateY(-200%); }
+  75%, 95% { transform: translateY(-300%); }
+  100% { transform: translateY(0%); }
+}
+
+/* Engimart Logo */
+.engimart {
+  font-size: 3rem;
+  font-family: 'Saira';
+  font-weight: bold;
+}
+
+/* Product Showcase */
+.product-showcase {
+  width: 65%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Product Highlight Card */
+.producth-card {
+  flex-grow: 1;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  align-items: center;
+  border-radius: 15px;
+  background: transparent;
+}
+
+.producth-image {
+  width: 50%;
+  height: 500px;
+  object-fit: contain;
+}
+
+.producth-info {
+  width: 50%;
+}
+
+.producth-info h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.producth-info p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.buy-now {
+  padding: 12px 30px;
+  font-size: 1rem;
+  background-color: #f56b2c;
+  color: #000;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.buy-now:hover {
+  background-color: #B4DFE5;
+  transform: scale(1.05);
+}
+
+/* Arrow Button */
+.arrow-btn {
+  background: transparent;
+  border: none;
+  color: #000;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+}
+
+.arrow-btn:hover {
+  transform: scale(1.1);
+}
+
+/* 3D Model Showcase */
+.model-showcase {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.model-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+  height: 500px;
+  background: transparent;
+  padding: 10px;
+  margin-right: 60px;
+  border-radius: 10px;
+}
+
+model-viewer {
+  width: 100%;
+  height: 400px;
+  object-fit: contain;
+  background-color: transparent;
+}
+
 model-viewer::part(progress-bar) {
   display: none;
 }
 
-  
-  .model-card iframe {
-    width: 100%;
-    height: 300px;
-    border-radius: 10px;
-  }
-  
-  .model-info h2 {
-    font-size: 1.5rem;
-    color: #333333;
-    margin-top: 15px;
-  }
-  
-  .model-info p {
-    font-size: 1rem;
-    color: #666;
-    margin-top: 5px;
-  }
-  .tagline {
-    width: 35%;
-  }
-  
-  .tagline h1 {
-    font-size: 2.5rem;
-    color: #080738;
-  }
-  
-  .animated-text {
-    color: #f56b2c;
-    transition: opacity 0.5s ease-in-out;
-  }
-  
-  .animated-text span {
-    display: block;
-    animation: animateWords 8s linear infinite;
-  }
-  
-  @keyframes animateWords {
-    0%, 20% { transform: translateY(0%); }
-    25%, 45% { transform: translateY(-100%); }
-    50%, 70% { transform: translateY(-200%); }
-    75%, 95% { transform: translateY(-300%); }
-    100% { transform: translateY(0%); }
-  }
-
-  .engimart {
-    font-size: 3rem;
-    font-family: 'Saira';
-    font-weight: bold;
-  }
-  
-  .product-showcase {
-    width: 65%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .arrow-btn {
-    background-color: transparent;
-    color: #000000;
-    border: none; /* Removed border */
-    font-size: 1.5rem; /* Reduced font size */
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px 10px; /* Adjust spacing */
+.model-info h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-top: 15px;
 }
 
-.arrow-btn:hover {
-    transform: scale(1.1);
+.model-info p {
+  font-size: 1rem;
+  color: #666;
+  margin-top: 5px;
 }
-  
-  
-  
-  .producth-card {
-    flex-grow: 1;
-    background: transparent;
-    border-radius: 15px;
-    /* box-shadow: 0 5px 15px rgba(0,0,0,0.1); */
-    display: flex;
-    padding: 20px;
-    align-items: center;
-    gap: 20px;
 
-  }
-  
-  .producth-image {
-    width: 50%;
-    height: 500px;
-    object-fit: contain;
-  }
-  
-  .producth-info {
-    width: 50%;
-  }
-  
-  .producth-info h2 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-  }
-  
-  .producth-info p {
-    font-size: 1rem;
-    margin-bottom: 20px;
-  }
-  
-  .buy-now {
-    padding: 12px 30px;
-    /* background-color: #28a745; */
-    background-color: #f56b2c;
-    color: #000000;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s, transform 0.3s;
-  }
-  
-  .buy-now:hover {
-    background-color: #B4DFE5;
-    transform: scale(1.05);
-  }
-  /*  */
-  .product-section {
-    padding: 50px 20px;
-    background-color: #ffffff33;
-    backdrop-filter: blur(55px);
-    text-align: center;
-    margin-left: 15px;
-    margin-right: 15px;
-    border-radius: 15px;
-    
-  }
-  
-  .section-title {
-    /* font-size: 2.5rem;
-    margin-bottom: 30px; */
-    font-size: 26px;
-    font-weight: bold;
-    color: #303C6C; /* Dark Blue */
-    border-bottom: 3px solid #F4976C;
-    display: inline-block;
-    padding-bottom: 5px;
-    margin-bottom: 15px;
-  }
-  
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 50px;
-    justify-items: center;
-  }
-  
-  .product-card {
-    background-color: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    padding: 15px;
-    width: 100%;
-    max-width: 250px;
-    margin-left: 15px;
-    
-  }
-  
-  .product-img {
-    width: 100%;
-    height: 200px;
-    object-fit: contain;
-  }
-  
-  .product-details {
-    text-align: left;
-    margin-top: 10px;
-  }
-  
-  .product-name {
-    font-weight: bold;
-  }
-  
-  .product-price {
-    color: green;
-    margin: 5px 0;
-  }
-  
-  .product-original_price {
-    color: red;
-    font-size: 0.9rem;
-    text-decoration: line-through;
-  }
-  
-  .buy-btn {
-    background-color: #F4976C;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  
-  .buy-btn:hover {
-    background-color: #E06A4E;
-  }
-  
-/* ------------------ RESPONSIVE DESIGN ------------------ */
+/* Product Section */
+.product-section {
+  padding: 50px 20px;
+  margin: 0 15px;
+  text-align: center;
+  background-color: #ffffff33;
+  backdrop-filter: blur(55px);
+  border-radius: 15px;
+}
+
+.section-title {
+  font-size: 26px;
+  font-weight: bold;
+  color: #303C6C;
+  border-bottom: 3px solid #F4976C;
+  display: inline-block;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+/* Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 50px;
+  justify-items: center;
+}
+
+.product-card {
+  background-color: #fff;
+  padding: 15px;
+  width: 100%;
+  max-width: 250px;
+  margin-left: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.product-img {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+}
+
+.product-details {
+  text-align: left;
+  margin-top: 10px;
+}
+
+.product-name {
+  font-weight: bold;
+}
+
+.product-price {
+  color: green;
+  margin: 5px 0;
+}
+
+.product-original_price {
+  color: red;
+  font-size: 0.9rem;
+  text-decoration: line-through;
+}
+
+.buy-btn {
+  background-color: #F4976C;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.buy-btn:hover {
+  background-color: #E06A4E;
+}
+
+/* ------------------ Responsive ------------------ */
 @media (max-width: 1024px) {
   .hero-section {
     flex-direction: column;
@@ -279,13 +273,12 @@ model-viewer::part(progress-bar) {
 
   .producth-card {
     flex-direction: column;
-    align-items: center;
+    text-align: center;
   }
 
   .producth-image,
   .producth-info {
     width: 100%;
-    text-align: center;
   }
 
   .producth-image {
@@ -309,47 +302,35 @@ model-viewer::part(progress-bar) {
 }
 
 @media (max-width: 768px) {
-  .tagline h1 {
-    font-size: 2rem;
+  .tagline h1 { font-size: 2rem; }
+  .engimart { font-size: 2.2rem; }
+  .model-info h2,
+  .animated-text { font-size: 1.2rem; }
+  .producth-info h2 { font-size: 1.4rem; }
+  .producth-info p,
+  .buy-now { font-size: 0.95rem; }
+  .product-img { height: 180px; }
+  .section-title { font-size: 22px; }
+
+  .product-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding-bottom: 10px;
+    scroll-snap-type: x mandatory;
   }
 
-  .engimart {
-    font-size: 2.2rem;
-  }
-
-  .model-info h2 {
-    font-size: 1.2rem;
-  }
-
-  .animated-text {
-    font-size: 1.2rem;
-  }
-
-  .producth-info h2 {
-    font-size: 1.4rem;
-  }
-
-  .producth-info p {
-    font-size: 0.95rem;
-  }
-
-  .buy-now {
-    padding: 10px 20px;
-    font-size: 0.95rem;
-  }
-
-  .product-img {
-    height: 180px;
-  }
-
-  .section-title {
-    font-size: 22px;
+  .product-card {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    width: 80%;
+    max-width: 220px;
   }
 }
 
 @media (max-width: 480px) {
   .product-grid {
-    grid-template-columns: 1fr;
+    flex-direction: row;
     gap: 30px;
   }
 
@@ -358,26 +339,12 @@ model-viewer::part(progress-bar) {
     margin: 0 auto;
   }
 
-  .tagline h1 {
-    font-size: 1.8rem;
-  }
-
-  .animated-text span {
-    font-size: 1.2rem;
-  }
-
-  .model-card {
-    padding: 0;
-  }
-
-  model-viewer {
-    height: 250px;
-  }
-
+  .tagline h1 { font-size: 1.8rem; }
+  .animated-text span { font-size: 1.2rem; }
+  .model-card { padding: 0; }
+  model-viewer { height: 250px; }
   .arrow-btn {
     font-size: 1.2rem;
     padding: 5px;
   }
 }
-
-  
